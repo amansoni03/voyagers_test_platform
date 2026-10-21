@@ -17,6 +17,16 @@ const PORT = 3000;
 
 app.use(express.json({ limit: '10mb' }));
 
+// Normalize URL for Vercel Serverless Function rewrites (only when running in Vercel environment)
+if (process.env.VERCEL) {
+  app.use((req, res, next) => {
+    if (req.url && !req.url.startsWith('/api')) {
+      req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
+    }
+    next();
+  });
+}
+
 // Initialize Google GenAI
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -27,21 +37,39 @@ const ai = new GoogleGenAI({
   },
 });
 
+// Detect read-only filesystem (e.g., Vercel Serverless / Lambda)
+const isReadOnlyFs = (() => {
+  try {
+    const testFile = path.join(__dirname, '.fs_write_check');
+    fs.writeFileSync(testFile, '1');
+    fs.unlinkSync(testFile);
+    return false;
+  } catch {
+    return true;
+  }
+})();
+
+const BASE_DIR = isReadOnlyFs ? os.tmpdir() : __dirname;
+
 // High-Concurrency Multi-Layer Persistence Store
-const SUBMISSIONS_FILE = path.join(__dirname, 'submissions.json');
-const SUBMISSIONS_BACKUP_FILE = path.join(__dirname, 'submissions.backup.json');
-const SUBMISSIONS_DIR = path.join(__dirname, 'submissions_records');
-const QUESTIONS_FILE = path.join(__dirname, 'questions.json');
-const QUESTIONS_BACKUP_FILE = path.join(__dirname, 'questions.backup.json');
-const SETTINGS_FILE = path.join(__dirname, 'test-settings.json');
+const SUBMISSIONS_FILE = path.join(BASE_DIR, 'submissions.json');
+const SUBMISSIONS_BACKUP_FILE = path.join(BASE_DIR, 'submissions.backup.json');
+const SUBMISSIONS_DIR = path.join(BASE_DIR, 'submissions_records');
+const QUESTIONS_FILE = path.join(BASE_DIR, 'questions.json');
+const QUESTIONS_BACKUP_FILE = path.join(BASE_DIR, 'questions.backup.json');
+const SETTINGS_FILE = path.join(BASE_DIR, 'test-settings.json');
+
+// Bundled read-only fallbacks
+const BUNDLED_QUESTIONS_FILE = path.join(__dirname, 'questions.json');
+const BUNDLED_SUBMISSIONS_FILE = path.join(__dirname, 'submissions.json');
 
 // Ensure isolated submissions records directory exists
-if (!fs.existsSync(SUBMISSIONS_DIR)) {
-  try {
+try {
+  if (!fs.existsSync(SUBMISSIONS_DIR)) {
     fs.mkdirSync(SUBMISSIONS_DIR, { recursive: true });
-  } catch (err) {
-    console.error('Failed to create submissions_records directory:', err);
   }
+} catch (err) {
+  console.warn('[Persistence Engine] submissions_records dir notice (read-only environment):', err);
 }
 
 // In-Memory atomic cache for zero-latency, thread-safe access
@@ -181,10 +209,20 @@ function getStoredQuestions(): any[] | null {
   try {
     if (fs.existsSync(QUESTIONS_FILE)) {
       const data = fs.readFileSync(QUESTIONS_FILE, 'utf-8');
-      return JSON.parse(data);
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
     }
   } catch (err) {
     console.error('Error reading questions file:', err);
+  }
+  try {
+    if (QUESTIONS_FILE !== BUNDLED_QUESTIONS_FILE && fs.existsSync(BUNDLED_QUESTIONS_FILE)) {
+      const data = fs.readFileSync(BUNDLED_QUESTIONS_FILE, 'utf-8');
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (err) {
+    console.error('Error reading bundled questions file:', err);
   }
   return null;
 }
@@ -200,7 +238,7 @@ function saveStoredQuestions(questions: any[]) {
     }
     fs.renameSync(tmp, QUESTIONS_FILE);
   } catch (err) {
-    console.error('Error saving questions file:', err);
+    console.warn('Notice saving questions file to disk (expected on read-only environments):', err);
   }
 }
 
@@ -212,7 +250,7 @@ function getStoredSettings(): any {
       return JSON.parse(data);
     }
   } catch (err) {
-    console.error('Error reading settings file:', err);
+    console.warn('Notice reading settings file:', err);
   }
   return {
     testTitle: 'SMS Lucknow TCS NQT Mock Test 2025-26',
@@ -229,7 +267,7 @@ function saveStoredSettings(settings: any) {
   try {
     fs.writeFileSync(SETTINGS_FILE, JSON.stringify(settings, null, 2), 'utf-8');
   } catch (err) {
-    console.error('Error saving settings file:', err);
+    console.warn('Notice saving settings file (expected on read-only environments):', err);
   }
 }
 
@@ -1030,4 +1068,10 @@ async function setupServer() {
   });
 }
 
-setupServer();
+// Only run standalone listener when not imported as a Vercel Serverless Function
+if (!process.env.VERCEL) {
+  setupServer();
+}
+
+export default app;
+

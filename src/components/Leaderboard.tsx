@@ -60,20 +60,68 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ onBackToTest, onSelect
   const [sortBy, setSortBy] = useState<'totalScore' | 'codingScore' | 'integrityScore' | 'speed'>('totalScore');
   const [copiedLeaderboard, setCopiedLeaderboard] = useState(false);
 
-  // Fetch submissions from backend
+  // Fetch submissions from backend with localStorage redundancy
   const fetchSubmissions = async () => {
     setIsLoading(true);
+    let serverList: SubmissionRecord[] = [];
+
     try {
       const res = await fetch('/api/submissions');
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        setSubmissions(data);
+      if (res.ok) {
+        const ct = res.headers.get('content-type') || '';
+        if (ct.includes('application/json')) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            serverList = data;
+          }
+        }
       }
     } catch (err) {
-      console.warn('Leaderboard fetch failed:', err);
-    } finally {
-      setIsLoading(false);
+      console.warn('Leaderboard fetch note (merging local storage):', err);
     }
+
+    const recordsMap = new Map<string, SubmissionRecord>();
+    serverList.forEach((sub) => {
+      if (sub && sub.id) recordsMap.set(sub.id, sub);
+    });
+
+    try {
+      const localConsolidated = localStorage.getItem('sms_all_submissions');
+      if (localConsolidated) {
+        const parsed = JSON.parse(localConsolidated);
+        if (Array.isArray(parsed)) {
+          parsed.forEach((sub) => {
+            if (sub && sub.id && !recordsMap.has(sub.id)) recordsMap.set(sub.id, sub);
+          });
+        }
+      }
+    } catch {}
+
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('sms_sub_SMS-') || key === 'sms_sub_latest')) {
+          try {
+            const raw = localStorage.getItem(key);
+            if (raw) {
+              const sub = JSON.parse(raw);
+              if (sub && sub.id && !recordsMap.has(sub.id)) {
+                recordsMap.set(sub.id, sub);
+              }
+            }
+          } catch {}
+        }
+      }
+    } catch {}
+
+    const sortedList = Array.from(recordsMap.values()).sort((a, b) => {
+      const tA = new Date(a.createdAt || 0).getTime();
+      const tB = new Date(b.createdAt || 0).getTime();
+      return tB - tA;
+    });
+
+    setSubmissions(sortedList);
+    setIsLoading(false);
   };
 
   useEffect(() => {

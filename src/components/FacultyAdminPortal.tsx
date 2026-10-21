@@ -28,7 +28,8 @@ import {
   ListChecks,
   ChevronUp,
   ChevronDown,
-  Terminal
+  Terminal,
+  Upload
 } from 'lucide-react';
 
 interface FacultyAdminPortalProps {
@@ -62,25 +63,120 @@ export const FacultyAdminPortal: React.FC<FacultyAdminPortalProps> = ({
   const [inspectorSection, setInspectorSection] = useState<'all' | 'numerical' | 'verbal' | 'reasoning' | 'advanced'>('all');
   const [expandedQuestionId, setExpandedQuestionId] = useState<string | null>(null);
 
-  // Fetch submissions from server
+  // Fetch submissions from server with resilient localStorage redundancy
   const fetchSubmissions = async () => {
     setIsLoading(true);
+    let serverList: SubmissionRecord[] = [];
+
     try {
       const res = await fetch('/api/submissions');
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        setSubmissions(data);
+      if (res.ok) {
+        const ct = res.headers.get('content-type') || '';
+        if (ct.includes('application/json')) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            serverList = data;
+          }
+        }
       }
     } catch (err) {
-      console.warn('Failed to load submissions:', err);
-    } finally {
-      setIsLoading(false);
+      console.warn('Backend sync notice (using local storage redundancy):', err);
     }
+
+    const recordsMap = new Map<string, SubmissionRecord>();
+
+    // 1. Add server records
+    serverList.forEach((sub) => {
+      if (sub && sub.id) recordsMap.set(sub.id, sub);
+    });
+
+    // 2. Add local storage consolidated list
+    try {
+      const localConsolidated = localStorage.getItem('sms_all_submissions');
+      if (localConsolidated) {
+        const parsed = JSON.parse(localConsolidated);
+        if (Array.isArray(parsed)) {
+          parsed.forEach((sub) => {
+            if (sub && sub.id && !recordsMap.has(sub.id)) recordsMap.set(sub.id, sub);
+          });
+        }
+      }
+    } catch {}
+
+    // 3. Scan individual keys (sms_sub_*)
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('sms_sub_SMS-') || key === 'sms_sub_latest')) {
+          try {
+            const raw = localStorage.getItem(key);
+            if (raw) {
+              const sub = JSON.parse(raw);
+              if (sub && sub.id && !recordsMap.has(sub.id)) {
+                recordsMap.set(sub.id, sub);
+              }
+            }
+          } catch {}
+        }
+      }
+    } catch {}
+
+    const sortedList = Array.from(recordsMap.values()).sort((a, b) => {
+      const tA = new Date(a.createdAt || 0).getTime();
+      const tB = new Date(b.createdAt || 0).getTime();
+      return tB - tA;
+    });
+
+    setSubmissions(sortedList);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     fetchSubmissions();
   }, []);
+
+  // Export full JSON backup
+  const handleExportJSON = () => {
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(submissions, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute('href', dataStr);
+    downloadAnchor.setAttribute('download', `SMS_TCS_NQT_Submissions_Backup_${new Date().toISOString().slice(0, 10)}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  };
+
+  // Import JSON backup
+  const handleImportJSON = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const parsed = JSON.parse(event.target?.result as string);
+        if (Array.isArray(parsed)) {
+          const recordsMap = new Map<string, SubmissionRecord>();
+          submissions.forEach(s => recordsMap.set(s.id, s));
+          parsed.forEach((s: SubmissionRecord) => {
+            if (s && s.id) recordsMap.set(s.id, s);
+          });
+          const merged = Array.from(recordsMap.values()).sort((a, b) => {
+            return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+          });
+          setSubmissions(merged);
+          try {
+            localStorage.setItem('sms_all_submissions', JSON.stringify(merged));
+          } catch {}
+          alert(`Successfully imported ${parsed.length} candidate records!`);
+        }
+      } catch (err) {
+        alert('Failed to parse JSON file. Please ensure it is a valid submissions backup.');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
 
   // Filtered list
   const filteredSubmissions = submissions.filter((sub) => {
@@ -213,6 +309,38 @@ export const FacultyAdminPortal: React.FC<FacultyAdminPortalProps> = ({
           >
             {copiedAllRows ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
             <span>{copiedAllRows ? 'Copied All!' : 'Copy for Sheets'}</span>
+          </button>
+
+          <button
+            onClick={handleExportJSON}
+            title="Download complete JSON backup file of all candidate submissions"
+            className="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs rounded-xl shadow-2xs flex items-center gap-2 transition-all active:scale-95"
+          >
+            <Download className="w-4 h-4 text-indigo-600" />
+            <span>Backup JSON</span>
+          </button>
+
+          <label
+            title="Upload/merge candidate submissions from a JSON file"
+            className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-bold text-xs rounded-xl shadow-2xs flex items-center gap-2 cursor-pointer transition-all active:scale-95"
+          >
+            <Upload className="w-4 h-4 text-slate-600" />
+            <span>Import JSON</span>
+            <input
+              type="file"
+              accept=".json"
+              onChange={handleImportJSON}
+              className="hidden"
+            />
+          </label>
+
+          <button
+            onClick={fetchSubmissions}
+            disabled={isLoading}
+            title="Reload submissions from API and local storage"
+            className="p-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 rounded-xl shadow-2xs transition-all active:scale-95"
+          >
+            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-blue-600' : ''}`} />
           </button>
 
           {onOpenLeaderboard && (

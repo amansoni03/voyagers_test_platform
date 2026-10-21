@@ -51,12 +51,31 @@ export const QuestionManagerModal: React.FC<QuestionManagerModalProps> = ({
   });
 
   useEffect(() => {
-    // Fetch settings from server
+    // 1. Load cached settings from localStorage first
+    try {
+      const cached = localStorage.getItem('sms_test_settings');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed && typeof parsed === 'object') {
+          setSettings(prev => ({ ...prev, ...parsed }));
+        }
+      }
+    } catch {}
+
+    // 2. Fetch settings from server
     fetch('/api/test-settings')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Not ok');
+        const ct = res.headers.get('content-type') || '';
+        if (!ct.includes('application/json')) throw new Error('Not JSON');
+        return res.json();
+      })
       .then(data => {
-        if (data) {
+        if (data && typeof data === 'object') {
           setSettings(prev => ({ ...prev, ...data }));
+          try {
+            localStorage.setItem('sms_test_settings', JSON.stringify(data));
+          } catch {}
         }
       })
       .catch(() => {});
@@ -114,17 +133,24 @@ export const QuestionManagerModal: React.FC<QuestionManagerModalProps> = ({
     }
 
     onSaveQuestions(updatedList);
+    try {
+      localStorage.setItem('sms_custom_questions', JSON.stringify(updatedList));
+    } catch {}
 
     // Save full list to server
     try {
-      await fetch('/api/questions-all', {
+      const res = await fetch('/api/questions-all', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ questions: updatedList }),
       });
-      setSaveStatus('Questions synchronized successfully!');
+      if (res.ok) {
+        setSaveStatus('Questions saved and synchronized successfully!');
+      } else {
+        setSaveStatus('Saved locally in browser storage!');
+      }
     } catch {
-      setSaveStatus('Saved locally!');
+      setSaveStatus('Saved locally in browser storage!');
     }
 
     setEditingQuestion(null);
@@ -137,6 +163,9 @@ export const QuestionManagerModal: React.FC<QuestionManagerModalProps> = ({
 
     const updatedList = questions.filter(q => q.id !== id);
     onSaveQuestions(updatedList);
+    try {
+      localStorage.setItem('sms_custom_questions', JSON.stringify(updatedList));
+    } catch {}
 
     try {
       await fetch('/api/questions-all', {
@@ -153,15 +182,24 @@ export const QuestionManagerModal: React.FC<QuestionManagerModalProps> = ({
 
   const handleSaveSettings = async () => {
     try {
-      await fetch('/api/test-settings', {
+      localStorage.setItem('sms_test_settings', JSON.stringify(settings));
+    } catch {}
+
+    try {
+      const res = await fetch('/api/test-settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settings),
       });
-      setSaveStatus('Test settings saved successfully!');
+      if (res.ok) {
+        setSaveStatus('Test settings saved successfully!');
+      } else {
+        setSaveStatus('Test settings saved locally!');
+      }
       setTimeout(() => setSaveStatus(null), 3000);
     } catch {
-      setSaveStatus('Failed to save settings.');
+      setSaveStatus('Test settings saved locally!');
+      setTimeout(() => setSaveStatus(null), 3000);
     }
   };
 

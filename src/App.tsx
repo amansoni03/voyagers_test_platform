@@ -29,18 +29,39 @@ export default function App() {
   });
 
   // Dynamic Question Bank State
-  const [questions, setQuestions] = useState<Question[]>(TCS_QUESTIONS);
+  const [questions, setQuestions] = useState<Question[]>(() => {
+    try {
+      const cached = localStorage.getItem('sms_custom_questions');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length >= 5) {
+          return parsed;
+        }
+      }
+    } catch {}
+    return TCS_QUESTIONS;
+  });
 
-  // Load custom questions from server if available
+  // Load custom questions from server if available and update cache
   useEffect(() => {
     fetch('/api/questions')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const contentType = res.headers.get('content-type') || '';
+        if (!contentType.includes('application/json')) throw new Error('Response is not JSON');
+        return res.json();
+      })
       .then(data => {
         if (data?.questions && Array.isArray(data.questions) && data.questions.length >= 5) {
           setQuestions(data.questions);
+          try {
+            localStorage.setItem('sms_custom_questions', JSON.stringify(data.questions));
+          } catch {}
         }
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.warn('Backend questions sync notice (using local storage fallback):', err);
+      });
   }, []);
 
   // Handle Exam Start
@@ -125,6 +146,11 @@ export default function App() {
       localStorage.setItem(`sms_sub_${submission.id}`, JSON.stringify(submission));
       localStorage.setItem(`sms_sub_roll_${studentProfile.rollNo}`, JSON.stringify(submission));
       localStorage.setItem('sms_sub_latest', JSON.stringify(submission));
+
+      const existingRaw = localStorage.getItem('sms_all_submissions');
+      const existingList: SubmissionRecord[] = existingRaw ? JSON.parse(existingRaw) : [];
+      const updatedList = [submission, ...existingList.filter(s => s.id !== submission.id)];
+      localStorage.setItem('sms_all_submissions', JSON.stringify(updatedList));
     } catch (e) {
       console.warn('LocalStorage backup:', e);
     }
@@ -346,8 +372,18 @@ export default function App() {
         isOpen={showQuestionManager}
         onClose={() => setShowQuestionManager(false)}
         questions={questions}
-        onSaveQuestions={(updated) => setQuestions(updated)}
-        onResetQuestions={() => setQuestions(TCS_QUESTIONS)}
+        onSaveQuestions={(updated) => {
+          setQuestions(updated);
+          try {
+            localStorage.setItem('sms_custom_questions', JSON.stringify(updated));
+          } catch {}
+        }}
+        onResetQuestions={() => {
+          setQuestions(TCS_QUESTIONS);
+          try {
+            localStorage.removeItem('sms_custom_questions');
+          } catch {}
+        }}
       />
     </div>
   );
