@@ -392,7 +392,7 @@ Output Format:
 
 Note on AI Evaluation:
 Any programming language is allowed. Minor syntax mistakes (like missing semicolons, standard include slips, or slight formatting discrepancies) will be LENIENTLY IGNORED. Marks are awarded primarily for sound algorithmic logic (e.g. Kadane's Algorithm or valid sliding window/DP approach).`,
-    sampleInput: `8\n-2 1 -3 4 -1 2 1 -5 4`,
+    sampleInput: `9\n-2 1 -3 4 -1 2 1 -5 4`,
     sampleExpectedOutput: `6`,
     constraints: [
       '1 <= N <= 100,000',
@@ -401,7 +401,7 @@ Any programming language is allowed. Minor syntax mistakes (like missing semicol
       'Auxiliary Space Target: O(1)'
     ],
     testCases: [
-      { input: '8\n-2 1 -3 4 -1 2 1 -5 4', expected: '6' },
+      { input: '9\n-2 1 -3 4 -1 2 1 -5 4', expected: '6' },
       { input: '5\n1 2 3 4 5', expected: '15' },
       { input: '4\n-5 -2 -8 -1', expected: '-1' },
       { input: '6\n5 4 -1 7 8 -2', expected: '23' }
@@ -584,7 +584,7 @@ Code in any language of your choice. Minor syntax imperfections or slight print 
       { input: '3 11\n1 2 5', expected: '3' },
       { input: '1 2\n3', expected: '-1' },
       { input: '1 0\n1', expected: '0' },
-      { input: '4 18\n2 5 10 1', expected: '3' }
+      { input: '4 18\n2 5 10 1', expected: '4' }
     ],
     starterTemplates: {
       python: `# TCS NQT Coding - Problem 2 (DP Coin Change)

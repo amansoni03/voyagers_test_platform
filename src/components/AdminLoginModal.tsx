@@ -66,7 +66,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
         onLoginSuccess();
         onClose();
       } else {
-        setError('Invalid admin credentials. Please enter the authorized username and password.');
+        setError('Invalid admin credentials. Access is restricted to authorized administrators.');
         setIsLoading(false);
       }
     } catch {
@@ -77,16 +77,10 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
         onLoginSuccess();
         onClose();
       } else {
-        setError('Invalid admin credentials. Username should be smsnqt26.');
+        setError('Invalid admin credentials. Access is restricted to authorized administrators.');
       }
       setIsLoading(false);
     }
-  };
-
-  const handleFillCredentials = () => {
-    setUsername('smsnqt26');
-    setPassword('@SMSCSE');
-    setError(null);
   };
 
   return (
@@ -129,7 +123,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
         )}
 
         {/* Login Form */}
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4 text-xs">
+        <form onSubmit={handleSubmit} autoComplete="off" className="mt-6 space-y-4 text-xs">
           <div>
             <label className="block text-slate-700 font-bold mb-1.5">
               Admin Username
@@ -139,9 +133,13 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
               <input
                 type="text"
                 required
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="smsnqt26"
+                placeholder="Enter admin username"
                 className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 font-medium"
               />
             </div>
@@ -152,22 +150,16 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
               <label className="block text-slate-700 font-bold">
                 Admin Password
               </label>
-              <button
-                type="button"
-                onClick={handleFillCredentials}
-                className="text-[11px] text-blue-600 hover:text-blue-800 hover:underline font-semibold"
-              >
-                Auto-fill Authorized Credentials
-              </button>
             </div>
             <div className="relative">
               <KeyRound className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="Enter password"
                 className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 font-medium"
               />
               <button

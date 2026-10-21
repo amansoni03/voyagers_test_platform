@@ -36,7 +36,7 @@ export default function App() {
     fetch('/api/questions')
       .then(res => res.json())
       .then(data => {
-        if (data?.questions && Array.isArray(data.questions) && data.questions.length > 0) {
+        if (data?.questions && Array.isArray(data.questions) && data.questions.length >= 5) {
           setQuestions(data.questions);
         }
       })
@@ -117,43 +117,70 @@ export default function App() {
 
     setCurrentSubmission(submission);
     
-    // Students only get the Thank You message after submission
+    // Students transition to the verified Submission Thank You view
     setCurrentView('thankyou');
 
-    // Automatically persist to server and trigger email to singhrishabh06116@gmail.com
+    // 1. Client-Side Redundancy: Cache in localStorage immediately
     try {
-      await fetch('/api/submissions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(submission),
-      });
-
-      // Automated email dispatch to instructor's Gmail
-      await fetch('/api/send-email-report', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          studentName: studentProfile.name,
-          rollNo: studentProfile.rollNo,
-          branch: studentProfile.branch,
-          email: 'singhrishabh06116@gmail.com',
-          totalScore: total,
-          maxScore: maxTotal,
-          integrityScore,
-          proctorFlags: violations.length,
-          breakdown: {
-            numerical: numScore,
-            verbal: vrbScore,
-            reasoning: rsnScore,
-            advanced: advScore,
-            coding: codingTotal,
-          },
-          codingEvaluation: codingEvaluations,
-        }),
-      });
-    } catch (err) {
-      console.warn('Background submission auto-dispatch:', err);
+      localStorage.setItem(`sms_sub_${submission.id}`, JSON.stringify(submission));
+      localStorage.setItem(`sms_sub_roll_${studentProfile.rollNo}`, JSON.stringify(submission));
+      localStorage.setItem('sms_sub_latest', JSON.stringify(submission));
+    } catch (e) {
+      console.warn('LocalStorage backup:', e);
     }
+
+    // 2. Resilient Auto-Retry Dispatch with Exponential Backoff
+    const dispatchWithRetry = async (retries = 3) => {
+      let savedSuccessfully = false;
+      for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+          const res = await fetch('/api/submissions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(submission),
+          });
+          if (res.ok) {
+            savedSuccessfully = true;
+            break;
+          }
+        } catch (fetchErr) {
+          console.warn(`Submission dispatch attempt ${attempt} failed, retrying...`, fetchErr);
+          if (attempt < retries) {
+            await new Promise((resolve) => setTimeout(resolve, attempt * 1200));
+          }
+        }
+      }
+
+      // Send instructor email scorecard summary
+      try {
+        await fetch('/api/send-email-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            studentName: studentProfile.name,
+            rollNo: studentProfile.rollNo,
+            branch: studentProfile.branch,
+            email: 'singhrishabh06116@gmail.com',
+            totalScore: total,
+            maxScore: maxTotal,
+            integrityScore,
+            proctorFlags: violations.length,
+            breakdown: {
+              numerical: numScore,
+              verbal: vrbScore,
+              reasoning: rsnScore,
+              advanced: advScore,
+              coding: codingTotal,
+            },
+            codingEvaluation: codingEvaluations,
+          }),
+        });
+      } catch (emailErr) {
+        console.warn('Email report dispatch:', emailErr);
+      }
+    };
+
+    dispatchWithRetry();
   };
 
   // Safe navigation handler enforcing student vs admin access

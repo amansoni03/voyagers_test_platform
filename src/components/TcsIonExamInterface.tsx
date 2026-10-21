@@ -564,7 +564,7 @@ export const TcsIonExamInterface: React.FC<TcsIonExamInterfaceProps> = ({
                 <div className="lg:col-span-7 h-full">
                   <CodeEditorSection
                     question={currentQuestion}
-                    studentCode={codingSubmissions[currentQuestion.id]?.code || ''}
+                    studentCode={codingSubmissions[currentQuestion.id]?.code ?? (currentQuestion.starterTemplates?.[codingSubmissions[currentQuestion.id]?.language || 'python'] || '')}
                     selectedLanguage={codingSubmissions[currentQuestion.id]?.language || 'python'}
                     onCodeChange={handleCodeChange}
                     onLanguageChange={handleLanguageChange}

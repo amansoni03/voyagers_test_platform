@@ -6,3 +6,6 @@ coverage/
 *.log
 .env*
 !.env.example
+*.backup.json
+*.tmp
+bun.lock

@@ -115,14 +115,14 @@ export const QuestionManagerModal: React.FC<QuestionManagerModalProps> = ({
 
     onSaveQuestions(updatedList);
 
-    // Save to server
+    // Save full list to server
     try {
-      await fetch(`/api/questions/${editingQuestion.id}`, {
-        method: 'PUT',
+      await fetch('/api/questions-all', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editingQuestion),
+        body: JSON.stringify({ questions: updatedList }),
       });
-      setSaveStatus('Question saved successfully!');
+      setSaveStatus('Questions synchronized successfully!');
     } catch {
       setSaveStatus('Saved locally!');
     }
@@ -137,6 +137,14 @@ export const QuestionManagerModal: React.FC<QuestionManagerModalProps> = ({
 
     const updatedList = questions.filter(q => q.id !== id);
     onSaveQuestions(updatedList);
+
+    try {
+      await fetch('/api/questions-all', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ questions: updatedList }),
+      });
+    } catch {}
 
     try {
       await fetch(`/api/questions/${id}`, { method: 'DELETE' });
@@ -423,12 +431,142 @@ export const QuestionManagerModal: React.FC<QuestionManagerModalProps> = ({
                         <textarea
                           rows={3}
                           value={editingQuestion.sampleExpectedOutput || ''}
-                          onChange={(e) => setEditingQuestion({ ...editingQuestion, sampleExpectedOutput: e.target.value })}
+                          onChange={(e) => {
+                            const newExpected = e.target.value;
+                            const currentCases = editingQuestion.testCases ? [...editingQuestion.testCases] : [];
+                            if (currentCases.length > 0) {
+                              currentCases[0] = { ...currentCases[0], expected: newExpected };
+                            }
+                            setEditingQuestion({ 
+                              ...editingQuestion, 
+                              sampleExpectedOutput: newExpected,
+                              testCases: currentCases.length > 0 ? currentCases : undefined
+                            });
+                          }}
                           className="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg font-mono text-xs"
                           placeholder="e.g. 15"
                         />
+                        <span className="text-[10px] text-amber-700 font-semibold block mt-1">
+                          ⚠️ Strict Output Check: If the student's output does not match this expected output, an Output Mismatch Error will be shown to the candidate.
+                        </span>
                       </div>
                     </div>
+                  </div>
+
+                  {/* ── All Test Cases & Expected Outputs ── */}
+                  <div className="space-y-3 p-4 bg-slate-100/80 border border-slate-300 rounded-xl">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <label className="block font-bold text-slate-800 text-xs">
+                          Test Cases & Expected Outputs Evaluation Suite
+                        </label>
+                        <p className="text-[11px] text-slate-600 mt-0.5">
+                          Every test case input is executed against the student's program and compared with its expected output.
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = editingQuestion.testCases || [];
+                          setEditingQuestion({
+                            ...editingQuestion,
+                            testCases: [
+                              ...current,
+                              { input: '', expected: '', hidden: false }
+                            ],
+                          });
+                        }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold transition-colors shrink-0 shadow-2xs"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        Add Test Case
+                      </button>
+                    </div>
+
+                    {(!editingQuestion.testCases || editingQuestion.testCases.length === 0) ? (
+                      <div className="py-3 text-center text-slate-500 text-[11px] border border-dashed border-slate-300 rounded-lg bg-white">
+                        Using Sample Input & Sample Expected Output as the test case. Click "Add Test Case" to add more.
+                      </div>
+                    ) : (
+                      <div className="space-y-2.5 mt-2">
+                        {editingQuestion.testCases.map((tc, idx) => (
+                          <div key={idx} className="p-3 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+                            <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
+                              <span className="font-bold text-xs text-slate-800">
+                                Test Case #{idx + 1} {idx === 0 && <span className="text-blue-600 text-[10px] font-semibold">(Primary Sample Case)</span>}
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <label className="flex items-center gap-1 text-[11px] font-semibold text-slate-600 cursor-pointer">
+                                  <input
+                                    type="checkbox"
+                                    checked={Boolean(tc.hidden)}
+                                    onChange={(e) => {
+                                      const updated = [...(editingQuestion.testCases || [])];
+                                      updated[idx] = { ...updated[idx], hidden: e.target.checked };
+                                      setEditingQuestion({ ...editingQuestion, testCases: updated });
+                                    }}
+                                    className="rounded border-slate-300"
+                                  />
+                                  <span>Hidden Case</span>
+                                </label>
+                                {editingQuestion.testCases!.length > 1 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const updated = (editingQuestion.testCases || []).filter((_, i) => i !== idx);
+                                      setEditingQuestion({ ...editingQuestion, testCases: updated });
+                                    }}
+                                    className="p-1 rounded-md text-rose-600 hover:bg-rose-50 transition-colors"
+                                    title="Delete test case"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                              <div>
+                                <span className="text-[10px] font-bold text-slate-500 block mb-0.5">Input (stdin):</span>
+                                <textarea
+                                  rows={2}
+                                  value={tc.input}
+                                  onChange={(e) => {
+                                    const updated = [...(editingQuestion.testCases || [])];
+                                    updated[idx] = { ...updated[idx], input: e.target.value };
+                                    if (idx === 0) {
+                                      setEditingQuestion({ ...editingQuestion, testCases: updated, sampleInput: e.target.value });
+                                    } else {
+                                      setEditingQuestion({ ...editingQuestion, testCases: updated });
+                                    }
+                                  }}
+                                  placeholder="Input data passed to stdin"
+                                  className="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg font-mono text-xs"
+                                />
+                              </div>
+                              <div>
+                                <span className="text-[10px] font-bold text-slate-500 block mb-0.5">Expected Output (stdout):</span>
+                                <textarea
+                                  rows={2}
+                                  value={tc.expected}
+                                  onChange={(e) => {
+                                    const updated = [...(editingQuestion.testCases || [])];
+                                    updated[idx] = { ...updated[idx], expected: e.target.value };
+                                    if (idx === 0) {
+                                      setEditingQuestion({ ...editingQuestion, testCases: updated, sampleExpectedOutput: e.target.value });
+                                    } else {
+                                      setEditingQuestion({ ...editingQuestion, testCases: updated });
+                                    }
+                                  }}
+                                  placeholder="Expected exact stdout"
+                                  className="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg font-mono text-xs text-emerald-800 font-bold"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   {/* ── Constraints Editor ── */}
