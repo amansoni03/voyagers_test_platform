@@ -1,0 +1,8 @@
+{
+  "name": "SMS Lucknow TCS NQT AI Testing Platform",
+  "description": "Comprehensive TCS NQT mock assessment portal for School of Management Sciences Lucknow with AI-powered logic code evaluation, anti-cheating browser lock, live proctoring, and instant Gmail & Google Sheets score syncing. Developed by Dhananjay Singh (B.Tech 4th Year CSE).",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

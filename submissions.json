@@ -1,0 +1,1902 @@
+[
+  {
+    "id": "SMS-MV94IHTK",
+    "createdAt": "2026-10-15T05:53:59.480Z",
+    "student": {
+      "name": "Aarav Sharma",
+      "rollNo": "2104230100045",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 49,
+    "maxTotalScore": 155,
+    "percentage": 32,
+    "qualificationStatus": "Under Review",
+    "sectionScores": {
+      "numerical": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "verbal": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "reasoning": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "advanced": {
+        "score": 0,
+        "max": 20,
+        "accuracy": 0
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "answers": {},
+    "codingEvaluations": {},
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": ""
+      },
+      "code_2": {
+        "language": "python",
+        "code": ""
+      }
+    },
+    "integrityScore": 10,
+    "violationCount": 8,
+    "violations": [
+      {
+        "id": "VIOL-mv94idxp",
+        "timestamp": "11:23:54 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv94ida6",
+        "timestamp": "11:23:53 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv94icjn",
+        "timestamp": "11:23:52 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv94ibth",
+        "timestamp": "11:23:51 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv94ib3h",
+        "timestamp": "11:23:50 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv94ia7k",
+        "timestamp": "11:23:49 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv94i883",
+        "timestamp": "11:23:47 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv94i573",
+        "timestamp": "11:23:43 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      }
+    ],
+    "timeTakenMinutes": 0,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-15T05:53:59.654Z"
+  },
+  {
+    "id": "SMS-MV8L2TMY",
+    "createdAt": "2026-10-14T20:49:55.594Z",
+    "student": {
+      "name": "Aarav Sharma",
+      "rollNo": "2104230100045",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 49,
+    "maxTotalScore": 155,
+    "percentage": 32,
+    "qualificationStatus": "Under Review",
+    "sectionScores": {
+      "numerical": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "verbal": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "reasoning": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "advanced": {
+        "score": 0,
+        "max": 20,
+        "accuracy": 0
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "answers": {},
+    "codingEvaluations": {
+      "q_coding_1792010474111": {
+        "score": 0,
+        "maxScore": 30,
+        "logicScore": 0,
+        "verdict": "No Solution Implemented",
+        "approach": "Starter Template / Boilerplate only",
+        "errorsIgnored": [],
+        "feedback": "No algorithmic solution logic was written. Please implement your problem-solving logic.",
+        "timeComplexity": "N/A",
+        "spaceComplexity": "N/A",
+        "testCases": [
+          {
+            "input": "Standard",
+            "expected": "hi",
+            "actual": "None",
+            "passed": false,
+            "note": "Starter code only"
+          }
+        ]
+      }
+    },
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 1 (Kadane's Algorithm)\n# School of Management Sciences Lucknow\nimport sys\n\ndef max_energy_sum(n, arr):\n    # TODO: Write your algorithmic logic here\n    # Return the maximum continuous sub-array sum\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        arr = [int(x) for x in data[1:n+1]]\n        print(max_energy_sum(n, arr))\n"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 2 (DP Coin Change)\n# School of Management Sciences Lucknow\nimport sys\n\ndef min_coins(n, target, coins):\n    # TODO: Write your algorithmic logic here\n    # Return minimum coins needed to make amount target, or -1 if impossible\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        target = int(data[1])\n        coins = [int(x) for x in data[2:2+n]]\n        print(min_coins(n, target, coins))\n"
+      },
+      "q_coding_1792010474111": {
+        "language": "python",
+        "code": "print(\"hi322222222222222222\")\n"
+      }
+    },
+    "integrityScore": 82,
+    "violationCount": 2,
+    "violations": [
+      {
+        "id": "VIOL-mv8l0w17",
+        "timestamp": "2:18:25 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8l0vy6",
+        "timestamp": "2:18:25 AM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      }
+    ],
+    "timeTakenMinutes": 3,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-14T20:49:55.660Z"
+  },
+  {
+    "id": "SMS-MV8KX9Y3",
+    "createdAt": "2026-10-14T20:45:36.795Z",
+    "student": {
+      "name": "Aarav Sharma",
+      "rollNo": "2104230100045",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 49,
+    "maxTotalScore": 155,
+    "percentage": 32,
+    "qualificationStatus": "Under Review",
+    "sectionScores": {
+      "numerical": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "verbal": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "reasoning": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "advanced": {
+        "score": 0,
+        "max": 20,
+        "accuracy": 0
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "answers": {},
+    "codingEvaluations": {},
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 1 (Kadane's Algorithm)\n# School of Management Sciences Lucknow\nimport sys\n\ndef max_energy_sum(n, arr):\n    # TODO: Write your algorithmic logic here\n    # Return the maximum continuous sub-array sum\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        arr = [int(x) for x in data[1:n+1]]\n        print(max_energy_sum(n, arr))\n"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 2 (DP Coin Change)\n# School of Management Sciences Lucknow\nimport sys\n\ndef min_coins(n, target, coins):\n    # TODO: Write your algorithmic logic here\n    # Return minimum coins needed to make amount target, or -1 if impossible\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        target = int(data[1])\n        coins = [int(x) for x in data[2:2+n]]\n        print(min_coins(n, target, coins))\n"
+      },
+      "q_coding_1792010474111": {
+        "language": "java",
+        "code": "// Java solution\nimport java.util.*;\npublic class Solution {\n    public static void main(String[] args) {}\n}\n"
+      }
+    },
+    "integrityScore": 52,
+    "violationCount": 5,
+    "violations": [
+      {
+        "id": "VIOL-mv8ktvhe",
+        "timestamp": "2:12:58 AM",
+        "type": "tab_switch",
+        "severity": "high",
+        "description": "Candidate navigated away from the exam tab or minimized browser window"
+      },
+      {
+        "id": "VIOL-mv8ktvex",
+        "timestamp": "2:12:57 AM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      },
+      {
+        "id": "VIOL-mv8ktug2",
+        "timestamp": "2:12:56 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8ktqio",
+        "timestamp": "2:12:51 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8ktqgf",
+        "timestamp": "2:12:51 AM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      }
+    ],
+    "timeTakenMinutes": 2,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-14T20:45:37.260Z"
+  },
+  {
+    "id": "SMS-MV8KRBRN",
+    "createdAt": "2026-10-14T20:40:59.219Z",
+    "student": {
+      "name": "Aarav Sharma",
+      "rollNo": "2104230100045",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 49,
+    "maxTotalScore": 155,
+    "percentage": 32,
+    "qualificationStatus": "Under Review",
+    "sectionScores": {
+      "numerical": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "verbal": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "reasoning": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "advanced": {
+        "score": 0,
+        "max": 20,
+        "accuracy": 0
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "answers": {},
+    "codingEvaluations": {},
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 1 (Kadane's Algorithm)\n# School of Management Sciences Lucknow\nimport sys\n\ndef max_energy_sum(n, arr):\n    # TODO: Write your algorithmic logic here\n    # Return the maximum continuous sub-array sum\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        arr = [int(x) for x in data[1:n+1]]\n        print(max_energy_sum(n, arr))\n"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 2 (DP Coin Change)\n# School of Management Sciences Lucknow\nimport sys\n\ndef min_coins(n, target, coins):\n    # TODO: Write your algorithmic logic here\n    # Return minimum coins needed to make amount target, or -1 if impossible\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        target = int(data[1])\n        coins = [int(x) for x in data[2:2+n]]\n        print(min_coins(n, target, coins))\n"
+      }
+    },
+    "integrityScore": 10,
+    "violationCount": 9,
+    "violations": [
+      {
+        "id": "VIOL-mv8kr7vp",
+        "timestamp": "2:10:54 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8kr6yr",
+        "timestamp": "2:10:52 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8kr5t1",
+        "timestamp": "2:10:51 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8kr4aj",
+        "timestamp": "2:10:49 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8kqc7i",
+        "timestamp": "2:10:13 AM",
+        "type": "tab_switch",
+        "severity": "high",
+        "description": "Candidate navigated away from the exam tab or minimized browser window"
+      },
+      {
+        "id": "VIOL-mv8kqbh9",
+        "timestamp": "2:10:12 AM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      },
+      {
+        "id": "VIOL-mv8klgto",
+        "timestamp": "2:06:25 AM",
+        "type": "tab_switch",
+        "severity": "high",
+        "description": "Candidate navigated away from the exam tab or minimized browser window"
+      },
+      {
+        "id": "VIOL-mv8klgpi",
+        "timestamp": "2:06:25 AM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      },
+      {
+        "id": "VIOL-mv8klfc4",
+        "timestamp": "2:06:23 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      }
+    ],
+    "timeTakenMinutes": 3,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-14T20:40:59.473Z"
+  },
+  {
+    "id": "SMS-MV8IIIFI",
+    "createdAt": "2026-10-14T19:38:08.718Z",
+    "student": {
+      "name": "Aaaaaaaaaaaaaaaaaaaa",
+      "rollNo": "2104230100045www",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 49,
+    "maxTotalScore": 155,
+    "percentage": 32,
+    "qualificationStatus": "Under Review",
+    "sectionScores": {
+      "numerical": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "verbal": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "reasoning": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "advanced": {
+        "score": 0,
+        "max": 20,
+        "accuracy": 0
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "answers": {},
+    "codingEvaluations": {},
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 1 (Kadane's Algorithm)\n# School of Management Sciences Lucknow\nimport sys\n\ndef max_energy_sum(n, arr):\n    # TODO: Write your algorithmic logic here\n    # Return the maximum continuous sub-array sum\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        arr = [int(x) for x in data[1:n+1]]\n        print(max_energy_sum(n, arr))\n"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 2 (DP Coin Change)\n# School of Management Sciences Lucknow\nimport sys\n\ndef min_coins(n, target, coins):\n    # TODO: Write your algorithmic logic here\n    # Return minimum coins needed to make amount target, or -1 if impossible\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        target = int(data[1])\n        coins = [int(x) for x in data[2:2+n]]\n        print(min_coins(n, target, coins))\n"
+      }
+    },
+    "integrityScore": 10,
+    "violationCount": 8,
+    "violations": [
+      {
+        "id": "VIOL-mv8iiek3",
+        "timestamp": "1:08:03 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8iidu9",
+        "timestamp": "1:08:02 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8iidae",
+        "timestamp": "1:08:02 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8iicse",
+        "timestamp": "1:08:01 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8iic8u",
+        "timestamp": "1:08:00 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8iibmh",
+        "timestamp": "1:07:59 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8iib0l",
+        "timestamp": "1:07:59 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8iiabb",
+        "timestamp": "1:07:58 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      }
+    ],
+    "timeTakenMinutes": 0,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-14T19:38:08.794Z"
+  },
+  {
+    "id": "SMS-MV8IHUT4",
+    "createdAt": "2026-10-14T19:37:38.104Z",
+    "student": {
+      "name": "Aarav Sharma",
+      "rollNo": "2104230100045",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 49,
+    "maxTotalScore": 155,
+    "percentage": 32,
+    "qualificationStatus": "Under Review",
+    "sectionScores": {
+      "numerical": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "verbal": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "reasoning": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "advanced": {
+        "score": 0,
+        "max": 20,
+        "accuracy": 0
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "answers": {},
+    "codingEvaluations": {},
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 1 (Kadane's Algorithm)\n# School of Management Sciences Lucknow\nimport sys\n\ndef max_energy_sum(n, arr):\n    # TODO: Write your algorithmic logic here\n    # Return the maximum continuous sub-array sum\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        arr = [int(x) for x in data[1:n+1]]\n        print(max_energy_sum(n, arr))\n"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 2 (DP Coin Change)\n# School of Management Sciences Lucknow\nimport sys\n\ndef min_coins(n, target, coins):\n    # TODO: Write your algorithmic logic here\n    # Return minimum coins needed to make amount target, or -1 if impossible\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        target = int(data[1])\n        coins = [int(x) for x in data[2:2+n]]\n        print(min_coins(n, target, coins))\n"
+      }
+    },
+    "integrityScore": 10,
+    "violationCount": 9,
+    "violations": [
+      {
+        "id": "VIOL-mv8ihrky",
+        "timestamp": "1:07:33 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8ihqxl",
+        "timestamp": "1:07:33 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8ihq9s",
+        "timestamp": "1:07:32 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8ihpi4",
+        "timestamp": "1:07:31 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8ihotf",
+        "timestamp": "1:07:30 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8iho67",
+        "timestamp": "1:07:29 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8ihnjs",
+        "timestamp": "1:07:28 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8ihmfq",
+        "timestamp": "1:07:27 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8ihkxt",
+        "timestamp": "1:07:25 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      }
+    ],
+    "timeTakenMinutes": 0,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-14T19:37:38.463Z"
+  },
+  {
+    "id": "SMS-MV8GIK40",
+    "createdAt": "2026-10-14T18:42:11.664Z",
+    "student": {
+      "name": "Aarav Sharma",
+      "rollNo": "2104230100045",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 49,
+    "maxTotalScore": 155,
+    "percentage": 32,
+    "qualificationStatus": "Under Review",
+    "sectionScores": {
+      "numerical": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "verbal": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "reasoning": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "advanced": {
+        "score": 0,
+        "max": 20,
+        "accuracy": 0
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "answers": {},
+    "codingEvaluations": {},
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 1 (Kadane's Algorithm)\n# School of Management Sciences Lucknow\nimport sys\n\ndef max_energy_sum(n, arr):\n    # TODO: Write your algorithmic logic here\n    # Return the maximum continuous sub-array sum\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        arr = [int(x) for x in data[1:n+1]]\n        print(max_energy_sum(n, arr))\n"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 2 (DP Coin Change)\n# School of Management Sciences Lucknow\nimport sys\n\ndef min_coins(n, target, coins):\n    # TODO: Write your algorithmic logic here\n    # Return minimum coins needed to make amount target, or -1 if impossible\n    pass\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        target = int(data[1])\n        coins = [int(x) for x in data[2:2+n]]\n        print(min_coins(n, target, coins))\n"
+      }
+    },
+    "integrityScore": 10,
+    "violationCount": 11,
+    "violations": [
+      {
+        "id": "VIOL-mv8gig75",
+        "timestamp": "12:12:06 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8gieei",
+        "timestamp": "12:12:04 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8gidog",
+        "timestamp": "12:12:03 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8gicwp",
+        "timestamp": "12:12:02 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8gicct",
+        "timestamp": "12:12:01 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8gibqi",
+        "timestamp": "12:12:00 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8gib7c",
+        "timestamp": "12:12:00 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8giaio",
+        "timestamp": "12:11:59 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8gi9la",
+        "timestamp": "12:11:58 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8gi88h",
+        "timestamp": "12:11:56 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-mv8gi61f",
+        "timestamp": "12:11:53 AM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      }
+    ],
+    "timeTakenMinutes": 1,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-14T18:42:11.788Z"
+  },
+  {
+    "id": "SMS-MUZEGCHA",
+    "createdAt": "2026-10-08T10:34:33.646Z",
+    "student": {
+      "name": "Aarav Sharma",
+      "rollNo": "2104230100045",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 49,
+    "maxTotalScore": 155,
+    "percentage": 32,
+    "qualificationStatus": "Under Review",
+    "sectionScores": {
+      "numerical": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "verbal": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "reasoning": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "advanced": {
+        "score": 0,
+        "max": 20,
+        "accuracy": 0
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "codingEvaluations": {},
+    "codingSubmissions": {
+      "code_1": {
+        "language": "java",
+        "code": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n\n        for (int i = 0; i < n; i++) {\n            arr[i] = sc.nextInt();\n        }\n\n        int currentSum = arr[0];\n        int maxSum = arr[0];\n\n        for (int i = 1; i < n; i++) {\n            currentSum = Math.max(arr[i], currentSum + arr[i]);\n            maxSum = Math.max(maxSum, currentSum);\n        }\n\n        System.out.println(maxSum);\n    }\n}"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 2 (DP Coin Change)\nimport sys\n\ndef min_coins(n, target, coins):\n    # Dynamic programming logic\n    dp = [float('inf')] * (target + 1)\n    dp[0] = 0\n    for coin in coins:\n        for i in range(coin, target + 1):\n            if dp[i - coin] != float('inf'):\n                dp[i] = min(dp[i], dp[i - coin] + 1)\n    return dp[target] if dp[target] != float('inf') else -1\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        target = int(data[1])\n        coins = [int(x) for x in data[2:2+n]]\n        print(min_coins(n, target, coins))\n"
+      }
+    },
+    "integrityScore": 82,
+    "violationCount": 2,
+    "violations": [
+      {
+        "id": "VIOL-muzef648",
+        "timestamp": "4:03:38 PM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      },
+      {
+        "id": "VIOL-muzef3jz",
+        "timestamp": "4:03:35 PM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      }
+    ],
+    "timeTakenMinutes": 2,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-08T10:34:35.970Z",
+    "answers": {
+      "num_1": "a",
+      "num_2": "a",
+      "num_3": "a",
+      "num_4": "a",
+      "num_5": "d",
+      "vrb_1": "b",
+      "vrb_2": "b",
+      "vrb_3": "b",
+      "vrb_5": "d",
+      "rsn_1": "d",
+      "rsn_2": "b",
+      "rsn_3": "c",
+      "rsn_4": "a",
+      "rsn_5": "c",
+      "adv_1": "d",
+      "adv_2": "a",
+      "adv_3": "a",
+      "adv_4": "c"
+    }
+  },
+  {
+    "id": "SMS-MUZEDNJP",
+    "createdAt": "2026-10-08T10:32:28.021Z",
+    "student": {
+      "name": "Aarav Sharma",
+      "rollNo": "2104230100045",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 49,
+    "maxTotalScore": 155,
+    "percentage": 32,
+    "qualificationStatus": "Under Review",
+    "sectionScores": {
+      "numerical": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "verbal": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "reasoning": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "advanced": {
+        "score": 0,
+        "max": 20,
+        "accuracy": 0
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "codingEvaluations": {},
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 1 (Kadane's Logic)\n# School of Management Sciences Lucknow\nimport sys\n\ndef max_energy_sum(n, arr):\n    # Write your logic here\n    # Kadane's algorithm logic\n    max_so_far = arr[0]\n    curr_max = arr[0]\n    for i in range(1, n):\n        curr_max = max(arr[i], curr_max + arr[i])\n        max_so_far = max(max_so_far, curr_max)\n    return max_so_far\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        arr = [int(x) for x in data[1:n+1]]\n        print(max_energy_sum(n, arr))\n"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 2 (DP Coin Change)\nimport sys\n\ndef min_coins(n, target, coins):\n    # Dynamic programming logic\n    dp = [float('inf')] * (target + 1)\n    dp[0] = 0\n    for coin in coins:\n        for i in range(coin, target + 1):\n            if dp[i - coin] != float('inf'):\n                dp[i] = min(dp[i], dp[i - coin] + 1)\n    return dp[target] if dp[target] != float('inf') else -1\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        target = int(data[1])\n        coins = [int(x) for x in data[2:2+n]]\n        print(min_coins(n, target, coins))\n"
+      }
+    },
+    "integrityScore": 100,
+    "violationCount": 0,
+    "violations": [],
+    "timeTakenMinutes": 0,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-08T10:32:30.312Z",
+    "answers": {
+      "num_1": "c",
+      "num_2": "d",
+      "num_3": "b",
+      "num_4": "c",
+      "num_5": "c",
+      "vrb_1": "c",
+      "vrb_2": "b",
+      "vrb_3": "c",
+      "vrb_4": "b",
+      "vrb_5": "a",
+      "rsn_1": "a",
+      "rsn_2": "b",
+      "rsn_3": "b",
+      "rsn_4": "d",
+      "rsn_5": "a",
+      "adv_1": "c",
+      "adv_2": "b",
+      "adv_3": "b",
+      "adv_4": "a"
+    }
+  },
+  {
+    "id": "SMS-MUZDWEIN",
+    "createdAt": "2026-10-08T10:19:03.167Z",
+    "student": {
+      "name": "Aarav Sharma",
+      "rollNo": "2104230100045",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 89,
+    "maxTotalScore": 155,
+    "percentage": 57,
+    "qualificationStatus": "TCS Ninja",
+    "sectionScores": {
+      "numerical": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "verbal": {
+        "score": 15,
+        "max": 25,
+        "accuracy": 60
+      },
+      "reasoning": {
+        "score": 15,
+        "max": 25,
+        "accuracy": 60
+      },
+      "advanced": {
+        "score": 10,
+        "max": 20,
+        "accuracy": 50
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "codingEvaluations": {},
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 1 (Kadane's Logic)\n# School of Management Sciences Lucknow\nimport sys\n\ndef max_energy_sum(n, arr):\n    # Write your logic here\n    # Kadane's algorithm logic\n    max_so_far = arr[0]\n    curr_max = arr[0]\n    for i in range(1, n):\n        curr_max = max(arr[i], curr_max + arr[i])\n        max_so_far = max(max_so_far, curr_max)\n    return max_so_far\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        arr = [int(x) for x in data[1:n+1]]\n        print(max_energy_sum(n, arr))\n"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 2 (DP Coin Change)\nimport sys\n\ndef min_coins(n, target, coins):\n    # Dynamic programming logic\n    dp = [float('inf')] * (target + 1)\n    dp[0] = 0\n    for coin in coins:\n        for i in range(coin, target + 1):\n            if dp[i - coin] != float('inf'):\n                dp[i] = min(dp[i], dp[i - coin] + 1)\n    return dp[target] if dp[target] != float('inf') else -1\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        target = int(data[1])\n        coins = [int(x) for x in data[2:2+n]]\n        print(min_coins(n, target, coins))\n"
+      }
+    },
+    "integrityScore": 76,
+    "violationCount": 2,
+    "violations": [
+      {
+        "id": "VIOL-muzdu9lg",
+        "timestamp": "3:47:23 PM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-muzdu08f",
+        "timestamp": "3:47:11 PM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      }
+    ],
+    "timeTakenMinutes": 2,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-08T10:19:07.998Z",
+    "answers": {
+      "num_2": "b",
+      "num_3": "c",
+      "num_4": "a",
+      "num_5": "b",
+      "vrb_1": "d",
+      "vrb_3": "c",
+      "vrb_4": "b",
+      "vrb_5": "a",
+      "rsn_1": "b",
+      "rsn_2": "d",
+      "rsn_3": "d",
+      "rsn_4": "d",
+      "rsn_5": "d",
+      "adv_2": "d",
+      "adv_3": "a",
+      "adv_4": "c"
+    }
+  },
+  {
+    "id": "SMS-MUZD5GIK",
+    "createdAt": "2026-10-08T09:58:06.045Z",
+    "student": {
+      "name": "Sneha Gupta",
+      "rollNo": "2104230100099",
+      "branch": "CSE"
+    },
+    "totalScore": 125,
+    "maxTotalScore": 155,
+    "percentage": 81,
+    "qualificationStatus": "TCS Digital",
+    "sectionScores": {
+      "numerical": {
+        "score": 25,
+        "max": 25
+      },
+      "verbal": {
+        "score": 20,
+        "max": 25
+      },
+      "reasoning": {
+        "score": 25,
+        "max": 25
+      },
+      "advanced": {
+        "score": 15,
+        "max": 20
+      },
+      "coding": {
+        "score": 40,
+        "max": 60
+      }
+    },
+    "integrityScore": 96,
+    "violationCount": 0,
+    "violations": [],
+    "timeTakenMinutes": 42,
+    "instructorEmail": "singhrishabh06116@gmail.com",
+    "autoDispatchedToGmail": true,
+    "autoDispatchedAt": "2026-10-08T09:58:06.045Z",
+    "answers": {
+      "num_1": "a",
+      "num_2": "c",
+      "num_3": "a",
+      "num_4": "a",
+      "num_5": "b",
+      "vrb_1": "a",
+      "vrb_2": "d",
+      "vrb_4": "b",
+      "vrb_5": "c",
+      "rsn_1": "c",
+      "rsn_2": "b",
+      "rsn_3": "c",
+      "rsn_4": "c",
+      "rsn_5": "a",
+      "adv_1": "a",
+      "adv_2": "a",
+      "adv_3": "a"
+    }
+  },
+  {
+    "id": "SMS-MUZCP1EI",
+    "createdAt": "2026-10-08T09:45:19.962Z",
+    "student": {
+      "name": "ram",
+      "rollNo": "2104230100045",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "aarav.sharma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com",
+      "googleSheetsWebhookUrl": ""
+    },
+    "totalScore": 64,
+    "maxTotalScore": 155,
+    "percentage": 41,
+    "qualificationStatus": "Under Review",
+    "sectionScores": {
+      "numerical": {
+        "score": 15,
+        "max": 25,
+        "accuracy": 60
+      },
+      "verbal": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "reasoning": {
+        "score": 0,
+        "max": 25,
+        "accuracy": 0
+      },
+      "advanced": {
+        "score": 0,
+        "max": 20,
+        "accuracy": 0
+      },
+      "coding": {
+        "score": 49,
+        "max": 60,
+        "logicPercentage": 82
+      }
+    },
+    "codingEvaluations": {},
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 1 (Kadane's Logic)\n# School of Management Sciences Lucknow\nimport sys\n\ndef max_energy_sum(n, arr):\n    # Write your logic here\n    # Kadane's algorithm logic\n    max_so_far = arr[0]\n    curr_max = arr[0]f\n    for i in range(1, n):\n        curr_max = max(arr[i], curr_max + arr[i])\n        max_so_far = max(max_so_far, curr_max)\n    return max_so_far\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        arr = [int(x) for x in data[1:n+1]]\n        print(max_energy_sum(n, arr))\n"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "# TCS NQT Coding - Problem 2 (DP Coin Change)\nimport sys\n\ndef min_coins(n, target, coins):\n    # Dynamic programming logic\n    dp = [float('inf')] * (target + 1)\n    dp[0] = 0\n    for coin in coins:\n        for i in range(coin, target + 1):\n            if dp[i - coin] != float('inf'):\n                dp[i] = min(dp[i], dp[i - coin] + 1)\n    return dp[target] if dp[target] != float('inf') else -1\n\nif __name__ == '__main__':\n    data = sys.stdin.read().split()\n    if data:\n        n = int(data[0])\n        target = int(data[1])\n        coins = [int(x) for x in data[2:2+n]]\n        print(min_coins(n, target, coins))\n"
+      }
+    },
+    "integrityScore": 34,
+    "violationCount": 8,
+    "violations": [
+      {
+        "id": "VIOL-muzcojy0",
+        "timestamp": "3:14:57 PM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-muzcnqcd",
+        "timestamp": "3:14:18 PM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      },
+      {
+        "id": "VIOL-muzcnjsp",
+        "timestamp": "3:14:10 PM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      },
+      {
+        "id": "VIOL-muzcncvl",
+        "timestamp": "3:14:01 PM",
+        "type": "no_face",
+        "severity": "high",
+        "description": "Webcam feed obscured or insufficient lighting"
+      },
+      {
+        "id": "VIOL-muzcn9y4",
+        "timestamp": "3:13:57 PM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      },
+      {
+        "id": "VIOL-muzcn6pg",
+        "timestamp": "3:13:53 PM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      },
+      {
+        "id": "VIOL-muzcmv2v",
+        "timestamp": "3:13:38 PM",
+        "type": "fullscreen_exit",
+        "severity": "high",
+        "description": "Candidate exited Fullscreen Lockdown mode"
+      },
+      {
+        "id": "VIOL-muzcmv16",
+        "timestamp": "3:13:38 PM",
+        "type": "tab_switch",
+        "severity": "medium",
+        "description": "Window focus lost. Candidate switched focus to another application"
+      }
+    ],
+    "timeTakenMinutes": 2,
+    "answers": {
+      "num_1": "d",
+      "num_2": "b",
+      "num_4": "b",
+      "num_5": "a",
+      "vrb_1": "b",
+      "vrb_3": "a",
+      "vrb_4": "b",
+      "vrb_5": "a",
+      "rsn_1": "c",
+      "rsn_2": "b",
+      "rsn_4": "c",
+      "rsn_5": "c",
+      "adv_1": "b",
+      "adv_2": "d",
+      "adv_3": "c",
+      "adv_4": "a"
+    }
+  },
+  {
+    "id": "SMS-MOCK-001",
+    "createdAt": "2026-10-08T08:15:20.000Z",
+    "student": {
+      "name": "Dhananjay Singh",
+      "rollNo": "2104230100088",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "dhananjay.cse@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com"
+    },
+    "totalScore": 142,
+    "maxTotalScore": 155,
+    "percentage": 92,
+    "qualificationStatus": "TCS Digital",
+    "sectionScores": {
+      "numerical": {
+        "score": 25,
+        "max": 25,
+        "accuracy": 100
+      },
+      "verbal": {
+        "score": 25,
+        "max": 25,
+        "accuracy": 100
+      },
+      "reasoning": {
+        "score": 25,
+        "max": 25,
+        "accuracy": 100
+      },
+      "advanced": {
+        "score": 15,
+        "max": 20,
+        "accuracy": 75
+      },
+      "coding": {
+        "score": 52,
+        "max": 60,
+        "logicPercentage": 87
+      }
+    },
+    "codingEvaluations": {
+      "code_1": {
+        "score": 27,
+        "maxScore": 30,
+        "logicScore": 92,
+        "verdict": "Accepted on Logic",
+        "approach": "Kadane's Dynamic Programming Algorithm",
+        "errorsIgnored": [
+          "Minor formatting discrepancy ignored in output"
+        ],
+        "feedback": "Flawless maximum contiguous subarray logic. Optimal O(N) time complexity.",
+        "timeComplexity": "O(N)",
+        "spaceComplexity": "O(1)"
+      },
+      "code_2": {
+        "score": 25,
+        "maxScore": 30,
+        "logicScore": 85,
+        "verdict": "Accepted on Logic",
+        "approach": "Bottom-up Dynamic Programming (Coin Change)",
+        "errorsIgnored": [
+          "Variable capitalization leniently matched"
+        ],
+        "feedback": "Strong DP state transition formulated with base cases intact.",
+        "timeComplexity": "O(N * T)",
+        "spaceComplexity": "O(T)"
+      }
+    },
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "def max_energy_sum(n, arr):\n    max_so_far = arr[0]\n    curr_max = arr[0]\n    for i in range(1, n):\n        curr_max = max(arr[i], curr_max + arr[i])\n        max_so_far = max(max_so_far, curr_max)\n    return max_so_far"
+      },
+      "code_2": {
+        "language": "python",
+        "code": "def min_coins(n, target, coins):\n    dp = [float('inf')] * (target + 1)\n    dp[0] = 0\n    for c in coins:\n        for i in range(c, target + 1):\n            dp[i] = min(dp[i], dp[i - c] + 1)\n    return dp[target] if dp[target] != float('inf') else -1"
+      }
+    },
+    "integrityScore": 100,
+    "violationCount": 0,
+    "violations": [],
+    "timeTakenMinutes": 48,
+    "answers": {
+      "num_1": "a",
+      "num_2": "b",
+      "num_3": "d",
+      "num_4": "a",
+      "num_5": "b",
+      "vrb_2": "d",
+      "vrb_3": "a",
+      "vrb_4": "b",
+      "vrb_5": "b",
+      "rsn_1": "c",
+      "rsn_2": "b",
+      "rsn_3": "c",
+      "rsn_4": "c",
+      "rsn_5": "a",
+      "adv_1": "a",
+      "adv_2": "a",
+      "adv_3": "a",
+      "adv_4": "a"
+    }
+  },
+  {
+    "id": "SMS-MOCK-004",
+    "createdAt": "2026-10-08T08:50:00.000Z",
+    "student": {
+      "name": "Ananya Mishra",
+      "rollNo": "2104230100018",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "ananya.mishra@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com"
+    },
+    "totalScore": 136,
+    "maxTotalScore": 155,
+    "percentage": 88,
+    "qualificationStatus": "TCS Digital",
+    "sectionScores": {
+      "numerical": {
+        "score": 25,
+        "max": 25,
+        "accuracy": 100
+      },
+      "verbal": {
+        "score": 25,
+        "max": 25,
+        "accuracy": 100
+      },
+      "reasoning": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "advanced": {
+        "score": 15,
+        "max": 20,
+        "accuracy": 75
+      },
+      "coding": {
+        "score": 51,
+        "max": 60,
+        "logicPercentage": 85
+      }
+    },
+    "codingEvaluations": {
+      "code_1": {
+        "score": 26,
+        "maxScore": 30,
+        "logicScore": 90,
+        "verdict": "Accepted on Logic",
+        "approach": "Kadane Algorithm",
+        "errorsIgnored": [
+          "Minor semicolon omission forgiven"
+        ],
+        "feedback": "Clean logic in Java. Handled negative integer bounds.",
+        "timeComplexity": "O(N)",
+        "spaceComplexity": "O(1)"
+      },
+      "code_2": {
+        "score": 25,
+        "maxScore": 30,
+        "logicScore": 84,
+        "verdict": "Accepted on Logic",
+        "approach": "Dynamic Programming Array formulation",
+        "errorsIgnored": [
+          "Loop boundary leniency applied"
+        ],
+        "feedback": "Correct base cases and DP minimization structure.",
+        "timeComplexity": "O(N * T)",
+        "spaceComplexity": "O(T)"
+      }
+    },
+    "codingSubmissions": {
+      "code_1": {
+        "language": "java",
+        "code": "// Java Kadane's algorithm by Ananya"
+      },
+      "code_2": {
+        "language": "java",
+        "code": "// Java DP coin change"
+      }
+    },
+    "integrityScore": 100,
+    "violationCount": 0,
+    "violations": [],
+    "timeTakenMinutes": 44,
+    "answers": {
+      "num_1": "a",
+      "num_2": "b",
+      "num_3": "b",
+      "num_4": "a",
+      "num_5": "b",
+      "vrb_1": "a",
+      "vrb_2": "d",
+      "vrb_4": "b",
+      "vrb_5": "a",
+      "rsn_2": "b",
+      "rsn_3": "c",
+      "rsn_5": "b",
+      "adv_1": "a",
+      "adv_2": "a",
+      "adv_3": "b",
+      "adv_4": "a"
+    }
+  },
+  {
+    "id": "SMS-MOCK-002",
+    "createdAt": "2026-10-08T09:30:10.000Z",
+    "student": {
+      "name": "Priya Verma",
+      "rollNo": "2104230100054",
+      "branch": "Computer Science & Engineering (CSE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "priya.verma@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com"
+    },
+    "totalScore": 118,
+    "maxTotalScore": 155,
+    "percentage": 76,
+    "qualificationStatus": "TCS Digital",
+    "sectionScores": {
+      "numerical": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "verbal": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "reasoning": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "advanced": {
+        "score": 10,
+        "max": 20,
+        "accuracy": 50
+      },
+      "coding": {
+        "score": 48,
+        "max": 60,
+        "logicPercentage": 80
+      }
+    },
+    "codingEvaluations": {
+      "code_1": {
+        "score": 26,
+        "maxScore": 30,
+        "logicScore": 88,
+        "verdict": "Accepted on Logic",
+        "approach": "Kadane Sliding Window Logic",
+        "errorsIgnored": [
+          "Trivial import path difference overlooked"
+        ],
+        "feedback": "Correct algorithmic progression and negative array handling.",
+        "timeComplexity": "O(N)",
+        "spaceComplexity": "O(1)"
+      }
+    },
+    "codingSubmissions": {
+      "code_1": {
+        "language": "cpp",
+        "code": "// C++ Kadane Implementation for sensor wattage"
+      }
+    },
+    "integrityScore": 92,
+    "violationCount": 1,
+    "violations": [
+      {
+        "id": "VIOL-001",
+        "timestamp": "09:42:15 AM",
+        "type": "audio_noise",
+        "severity": "medium",
+        "description": "Suspicious acoustic spike or conversation detected"
+      }
+    ],
+    "timeTakenMinutes": 52,
+    "answers": {
+      "num_2": "b",
+      "num_3": "c",
+      "num_4": "a",
+      "num_5": "b",
+      "vrb_1": "a",
+      "vrb_3": "c",
+      "vrb_4": "b",
+      "rsn_1": "c",
+      "rsn_2": "b",
+      "rsn_3": "a",
+      "rsn_4": "a",
+      "rsn_5": "a",
+      "adv_1": "b",
+      "adv_2": "a",
+      "adv_3": "a"
+    }
+  },
+  {
+    "id": "SMS-MOCK-005",
+    "createdAt": "2026-10-08T09:45:30.000Z",
+    "student": {
+      "name": "Utkarsh Tiwari",
+      "rollNo": "2104230130041",
+      "branch": "Information Technology (IT)",
+      "year": "4th Year (2026 Batch)",
+      "email": "utkarsh.tiwari@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com"
+    },
+    "totalScore": 110,
+    "maxTotalScore": 155,
+    "percentage": 71,
+    "qualificationStatus": "TCS Digital",
+    "sectionScores": {
+      "numerical": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "verbal": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "reasoning": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "advanced": {
+        "score": 10,
+        "max": 20,
+        "accuracy": 50
+      },
+      "coding": {
+        "score": 40,
+        "max": 60,
+        "logicPercentage": 67
+      }
+    },
+    "codingEvaluations": {
+      "code_1": {
+        "score": 22,
+        "maxScore": 30,
+        "logicScore": 75,
+        "verdict": "Accepted on Logic",
+        "approach": "Sliding Subarray Window",
+        "errorsIgnored": [
+          "Indentation spacing discrepancy forgiven"
+        ],
+        "feedback": "Effective algorithmic logic in Python.",
+        "timeComplexity": "O(N)",
+        "spaceComplexity": "O(1)"
+      }
+    },
+    "codingSubmissions": {
+      "code_1": {
+        "language": "python",
+        "code": "# Python subarray solver by Utkarsh"
+      }
+    },
+    "integrityScore": 96,
+    "violationCount": 1,
+    "violations": [],
+    "timeTakenMinutes": 50,
+    "answers": {
+      "num_1": "a",
+      "num_3": "b",
+      "num_4": "a",
+      "num_5": "d",
+      "vrb_1": "c",
+      "vrb_2": "a",
+      "vrb_3": "c",
+      "vrb_4": "b",
+      "rsn_1": "b",
+      "rsn_2": "b",
+      "rsn_3": "c",
+      "rsn_4": "b",
+      "rsn_5": "a",
+      "adv_1": "a",
+      "adv_2": "a",
+      "adv_3": "b",
+      "adv_4": "a"
+    }
+  },
+  {
+    "id": "SMS-MOCK-006",
+    "createdAt": "2026-10-08T10:00:15.000Z",
+    "student": {
+      "name": "Sneha Srivastava",
+      "rollNo": "2104230310012",
+      "branch": "Electronics & Communication (ECE)",
+      "year": "4th Year (2026 Batch)",
+      "email": "sneha.ece@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com"
+    },
+    "totalScore": 98,
+    "maxTotalScore": 155,
+    "percentage": 63,
+    "qualificationStatus": "TCS Ninja",
+    "sectionScores": {
+      "numerical": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "verbal": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "reasoning": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "advanced": {
+        "score": 5,
+        "max": 20,
+        "accuracy": 25
+      },
+      "coding": {
+        "score": 33,
+        "max": 60,
+        "logicPercentage": 55
+      }
+    },
+    "codingEvaluations": {
+      "code_1": {
+        "score": 20,
+        "maxScore": 30,
+        "logicScore": 70,
+        "verdict": "Accepted on Logic",
+        "approach": "Prefix & Cumulative Max Logic",
+        "errorsIgnored": [
+          "Missing include directive forgiven in C"
+        ],
+        "feedback": "C program logic structured well. Handled sensor inputs.",
+        "timeComplexity": "O(N)",
+        "spaceComplexity": "O(1)"
+      }
+    },
+    "codingSubmissions": {
+      "code_1": {
+        "language": "c",
+        "code": "/* C implementation by Sneha */"
+      }
+    },
+    "integrityScore": 100,
+    "violationCount": 0,
+    "violations": [],
+    "timeTakenMinutes": 55,
+    "answers": {
+      "num_1": "d",
+      "num_2": "b",
+      "num_3": "b",
+      "num_4": "a",
+      "vrb_1": "d",
+      "vrb_2": "d",
+      "vrb_3": "a",
+      "vrb_4": "d",
+      "vrb_5": "a",
+      "rsn_1": "d",
+      "rsn_2": "d",
+      "rsn_3": "c",
+      "rsn_4": "a",
+      "rsn_5": "a",
+      "adv_2": "a",
+      "adv_3": "c",
+      "adv_4": "a"
+    }
+  },
+  {
+    "id": "SMS-MOCK-003",
+    "createdAt": "2026-10-08T10:10:45.000Z",
+    "student": {
+      "name": "Rohan Pandey",
+      "rollNo": "2104230130022",
+      "branch": "Information Technology (IT)",
+      "year": "4th Year (2026 Batch)",
+      "email": "rohan.pandey@smslucknow.ac.in",
+      "college": "School of Management Sciences, Lucknow",
+      "instructorEmail": "singhrishabh06116@gmail.com"
+    },
+    "totalScore": 85,
+    "maxTotalScore": 155,
+    "percentage": 55,
+    "qualificationStatus": "TCS Ninja",
+    "sectionScores": {
+      "numerical": {
+        "score": 15,
+        "max": 25,
+        "accuracy": 60
+      },
+      "verbal": {
+        "score": 15,
+        "max": 25,
+        "accuracy": 60
+      },
+      "reasoning": {
+        "score": 20,
+        "max": 25,
+        "accuracy": 80
+      },
+      "advanced": {
+        "score": 5,
+        "max": 20,
+        "accuracy": 25
+      },
+      "coding": {
+        "score": 30,
+        "max": 60,
+        "logicPercentage": 50
+      }
+    },
+    "codingEvaluations": {
+      "code_1": {
+        "score": 20,
+        "maxScore": 30,
+        "logicScore": 68,
+        "verdict": "Partially Correct Logic",
+        "approach": "Prefix Sum Approach",
+        "errorsIgnored": [
+          "Semicolon omission forgiven"
+        ],
+        "feedback": "Valid prefix subarray thought process; Kadane recommended for O(1) space.",
+        "timeComplexity": "O(N^2)",
+        "spaceComplexity": "O(N)"
+      }
+    },
+    "codingSubmissions": {
+      "code_1": {
+        "language": "java",
+        "code": "// Java prefix sum logic"
+      }
+    },
+    "integrityScore": 88,
+    "violationCount": 2,
+    "violations": [
+      {
+        "id": "VIOL-002",
+        "timestamp": "10:25:30 AM",
+        "type": "tab_switch",
+        "severity": "high",
+        "description": "Candidate navigated away from the exam tab or minimized browser window"
+      }
+    ],
+    "timeTakenMinutes": 58,
+    "answers": {
+      "num_1": "c",
+      "num_2": "d",
+      "num_3": "d",
+      "num_4": "a",
+      "num_5": "c",
+      "vrb_1": "a",
+      "vrb_2": "d",
+      "vrb_3": "a",
+      "vrb_4": "c",
+      "vrb_5": "c",
+      "rsn_1": "c",
+      "rsn_2": "b",
+      "rsn_3": "c",
+      "rsn_4": "b",
+      "rsn_5": "a",
+      "adv_1": "a",
+      "adv_2": "a",
+      "adv_3": "a",
+      "adv_4": "b"
+    }
+  }
+]
