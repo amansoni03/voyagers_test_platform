@@ -350,55 +350,6 @@ function isOutputMatch(actual: string, expected: string): boolean {
   return false;
 }
 
-async function simulateCodeExecution(
-  code: string,
-  language: string,
-  input: string
-): Promise<{ stdout: string; stderr: string; timedOut: boolean; compileError?: string; exitCode: number | null }> {
-  try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: `You are an exact code execution engine for ${language}. Trace the code execution with the provided standard input (stdin).
-Compute the exact stdout that running this program produces.
-
-Standard Input:
-${input}
-
-Source Code:
-${code}`,
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            stdout: { type: Type.STRING, description: 'The exact stdout string produced by running the program' },
-            stderr: { type: Type.STRING },
-            compileError: { type: Type.STRING },
-            exitCode: { type: Type.INTEGER }
-          },
-          required: ['stdout', 'exitCode']
-        }
-      }
-    });
-    const parsed = JSON.parse(response.text || '{}');
-    return {
-      stdout: parsed.stdout || '',
-      stderr: parsed.stderr || '',
-      compileError: parsed.compileError || undefined,
-      timedOut: false,
-      exitCode: parsed.exitCode ?? 0
-    };
-  } catch (err: any) {
-    return {
-      stdout: '',
-      stderr: err.message || 'Execution simulation error',
-      timedOut: false,
-      compileError: 'Simulation service unavailable',
-      exitCode: 1
-    };
-  }
-}
-
 async function compileAndExecute(
   code: string,
   language: string,
@@ -411,19 +362,11 @@ async function compileAndExecute(
       const srcFile = path.join(tmpDir, 'solution.py');
       fs.writeFileSync(srcFile, code, 'utf-8');
       const pyCmd = process.platform === 'win32' ? 'python' : 'python3';
-      const res = await runProgram(pyCmd, [srcFile], input);
-      if (res.exitCode === -1 && res.stderr.includes('ENOENT')) {
-        return await simulateCodeExecution(code, language, input);
-      }
-      return res;
+      return await runProgram(pyCmd, [srcFile], input);
     } else if (language === 'javascript') {
       const srcFile = path.join(tmpDir, 'solution.js');
       fs.writeFileSync(srcFile, code, 'utf-8');
-      const res = await runProgram('node', [srcFile], input);
-      if (res.exitCode === -1 && res.stderr.includes('ENOENT')) {
-        return await simulateCodeExecution(code, language, input);
-      }
-      return res;
+      return await runProgram('node', [srcFile], input);
     } else if (language === 'c') {
       const srcFile = path.join(tmpDir, 'solution.c');
       const binFile = path.join(tmpDir, process.platform === 'win32' ? 'solution.exe' : 'solution.out');
@@ -433,9 +376,6 @@ async function compileAndExecute(
         ? 'C:\\Program Files\\LLVM\\bin\\clang.exe'
         : 'gcc';
       const comp = await runProgram(cCompiler, [srcFile, '-o', binFile, '-O2', '-lm'], '', 8000);
-      if (comp.exitCode === -1 && (comp.stderr.includes('ENOENT') || comp.stderr.includes('spawn'))) {
-        return await simulateCodeExecution(code, language, input);
-      }
       if (comp.exitCode !== 0 || !fs.existsSync(binFile)) {
         return { stdout: '', stderr: comp.stderr, timedOut: false, compileError: comp.stderr || 'Compilation Failed', exitCode: comp.exitCode };
       }
@@ -449,9 +389,6 @@ async function compileAndExecute(
         ? 'C:\\Program Files\\LLVM\\bin\\clang++.exe'
         : 'g++';
       const comp = await runProgram(cppCompiler, [srcFile, '-o', binFile, '-O2', '-std=c++17'], '', 8000);
-      if (comp.exitCode === -1 && (comp.stderr.includes('ENOENT') || comp.stderr.includes('spawn'))) {
-        return await simulateCodeExecution(code, language, input);
-      }
       if (comp.exitCode !== 0 || !fs.existsSync(binFile)) {
         return { stdout: '', stderr: comp.stderr, timedOut: false, compileError: comp.stderr || 'Compilation Failed', exitCode: comp.exitCode };
       }
@@ -466,15 +403,12 @@ async function compileAndExecute(
       fs.writeFileSync(srcFile, code, 'utf-8');
 
       const comp = await runProgram('javac', [srcFile], '', 6000);
-      if (comp.exitCode === -1 && (comp.stderr.includes('ENOENT') || comp.stderr.includes('spawn'))) {
-        return await simulateCodeExecution(code, language, input);
-      }
       if (comp.exitCode !== 0) {
         return { stdout: '', stderr: comp.stderr, timedOut: false, compileError: comp.stderr || 'Java Compilation Error', exitCode: comp.exitCode };
       }
       return await runProgram('java', ['-cp', tmpDir, className], input);
     } else {
-      return await simulateCodeExecution(code, language, input);
+      return { stdout: '', stderr: `Unsupported language: ${language}`, timedOut: false, compileError: `Unsupported language: ${language}`, exitCode: -1 };
     }
   } finally {
     try {
@@ -555,7 +489,7 @@ app.post('/api/run-code', async (req, res) => {
         const exec = await compileAndExecute(code, language, tc.input);
 
         let actual = exec.stdout ? exec.stdout.trim() : '';
-        let err = exec.compileError || (exec.timedOut ? 'Time Limit Exceeded' : (exec.stderr ? exec.stderr.trim() : null));
+        let err = exec.compileError || (exec.timedOut ? 'Time Limit Exceeded' : (exec.stderr && !exec.stdout ? exec.stderr.trim() : null));
 
         const normActual = normalizeOutput(actual);
         const normExpected = normalizeOutput(tc.expected || '');
@@ -603,173 +537,91 @@ app.post('/api/run-code', async (req, res) => {
   }
 });
 
-// 1. Evaluate Code Logic using Gemini (Ignores minor syntax mistakes, judges logic)
+// 1. Evaluate Code via Normal Compilation & Test Cases (Zero AI dependency)
 app.post('/api/evaluate-code', async (req, res) => {
   try {
-    const { problemTitle, problemDescription, language, code, sampleInput, sampleExpectedOutput } = req.body;
+    const { language, code, sampleInput, sampleExpectedOutput, testCases } = req.body;
 
     if (!code || !code.trim() || isStarterOrEmptyCode(code)) {
       return res.json({
         score: 0,
         maxScore: 30,
         logicScore: 0,
-        verdict: 'No Solution Implemented',
-        approach: 'Starter Template / Boilerplate only',
+        verdict: 'Starter Template Only',
+        approach: 'No Solution Implemented',
         errorsIgnored: [],
-        feedback: 'No algorithmic solution logic was written. Please implement your problem-solving logic.',
+        feedback: 'No solution implemented. Write your code and click Run Test Cases.',
         timeComplexity: 'N/A',
         spaceComplexity: 'N/A',
         testCases: [
-          { input: sampleInput || 'Standard', expected: sampleExpectedOutput || 'Output', actual: 'None', passed: false, note: 'Starter code only' }
+          { input: sampleInput || '', expected: sampleExpectedOutput || '', actual: 'None', passed: false, note: 'Starter code only' }
         ]
       });
     }
 
-    const prompt = `You are a high-stakes competitive programming and campus placement evaluator for TCS NQT (School of Management Sciences Lucknow).
-Evaluate this student's code logic for the problem below.
+    let cases = Array.isArray(testCases) && testCases.length > 0 ? testCases : [];
+    if (cases.length === 0 && sampleExpectedOutput !== undefined) {
+      cases = [{ input: sampleInput || '', expected: sampleExpectedOutput }];
+    }
 
-IMPORTANT CRITERIA REQUESTED BY INSTITUTION:
-1. "student is able to code on any language and normal error get ignored like only fixed ans is not acceptable if the logic is right then we can give mark on the basis of the logic"
-2. Leniency Mode: Minor syntax errors (e.g. missing semicolon, minor import typo, case sensitivity slip, slight print output formatting variation) MUST BE FORGIVEN and ignored!
-3. Score purely on algorithmic logic, problem comprehension, data structures used, edge case handling, and logic flow.
-4. Total marks for this question: 30 marks.
-5. If the logic is sound and the algorithm would work when compiled, award full or near-full marks (24-30).
-6. If the core logic is 70% right with small logic bugs, award partial marks (15-23).
-7. If the approach is flawed or pseudo-code has no valid logic, award according to genuine effort (5-14).
-8. If completely unrelated, trivial, or just boilerplate comments without working logic, award 0-4.
-CRITICAL MANDATE:
-- If the student code is just boilerplate/starter code, or empty function, award 0 marks!
-- If the student's algorithmic logic is incorrect or flawed, do NOT award full marks or say "Accepted on Logic". Award marks corresponding to actual logic correctness.
+    const results = [];
+    let passedCount = 0;
+    let firstCompileError: string | null = null;
 
-Problem Title: ${problemTitle}
-Problem Description: ${problemDescription}
-Student Selected Language: ${language}
-Sample Input: ${sampleInput}
-Sample Expected Output: ${sampleExpectedOutput}
-
-Student Code:
-\`\`\`${language}
-${code}
-\`\`\`
-
-Evaluate and return structured JSON matching the requested schema.`;
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            score: { type: Type.NUMBER, description: 'Marks awarded out of 30' },
-            logicScore: { type: Type.NUMBER, description: 'Percentage score from 0 to 100 for algorithmic logic' },
-            verdict: { type: Type.STRING, description: 'Short verdict, e.g. Accepted on Logic, Partially Correct Logic, Logic Needs Revision, Incorrect Algorithm' },
-            approach: { type: Type.STRING, description: 'Name of the approach used, e.g. Kadane Algorithm, Dynamic Programming, Greedy, Brute Force, Flawed Logic' },
-            errorsIgnored: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-              description: 'List of minor syntax or formatting errors intentionally forgiven/ignored for fair marking'
-            },
-            feedback: { type: Type.STRING, description: 'Detailed encouraging constructive feedback explaining logic strengths and tips' },
-            timeComplexity: { type: Type.STRING, description: 'Estimated time complexity e.g. O(N), O(N log N)' },
-            spaceComplexity: { type: Type.STRING, description: 'Estimated space complexity e.g. O(1), O(N)' },
-            testCases: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  input: { type: Type.STRING },
-                  expected: { type: Type.STRING },
-                  actual: { type: Type.STRING },
-                  passed: { type: Type.BOOLEAN },
-                  note: { type: Type.STRING }
-                },
-                required: ['input', 'expected', 'passed']
-              }
-            }
-          },
-          required: ['score', 'logicScore', 'verdict', 'approach', 'errorsIgnored', 'feedback']
-        }
+    for (const tc of cases) {
+      const exec = await compileAndExecute(code, language, tc.input);
+      if (exec.compileError && !firstCompileError) {
+        firstCompileError = exec.compileError;
       }
-    });
+      const actualNorm = normalizeOutput(exec.stdout || '');
+      const expNorm = normalizeOutput(tc.expected || '');
+      const passed = !exec.compileError && !exec.timedOut && isOutputMatch(actualNorm, expNorm);
+      if (passed) passedCount++;
 
-    const parsed = JSON.parse(response.text || '{}');
-    return res.json({
-      maxScore: 30,
-      ...parsed
-    });
-  } catch (error: any) {
-    console.error('Error evaluating code logic:', error);
-    // Real execution-based fallback rather than blind pass:
-    try {
-      const { code, language, sampleInput, sampleExpectedOutput } = req.body;
-      if (isStarterOrEmptyCode(code)) {
-        return res.json({
-          score: 0,
-          maxScore: 30,
-          logicScore: 0,
-          verdict: 'Starter Template Only',
-          approach: 'No Algorithm Implemented',
-          errorsIgnored: [],
-          feedback: 'Please write your algorithmic solution.',
-          testCases: [{ input: sampleInput || '', expected: sampleExpectedOutput || '', actual: 'None', passed: false }]
-        });
-      }
-
-      const exec = await compileAndExecute(code, language, sampleInput || '');
-      const actualNorm = (exec.stdout || '').trim().replace(/\r\n/g, '\n');
-      const expNorm = (sampleExpectedOutput || '').trim().replace(/\r\n/g, '\n');
-      const passed = !exec.compileError && !exec.timedOut && actualNorm === expNorm;
-
-      if (passed) {
-        return res.json({
-          score: 30,
-          maxScore: 30,
-          logicScore: 100,
-          verdict: 'Accepted (Test Passed)',
-          approach: 'Algorithmic Implementation',
-          errorsIgnored: ['Compiler variation leniently accepted'],
-          feedback: 'Candidate logic executed and successfully passed sample test case.',
-          timeComplexity: 'O(N)',
-          spaceComplexity: 'O(1)',
-          testCases: [{ input: sampleInput || '', expected: sampleExpectedOutput || '', actual: actualNorm, passed: true }]
-        });
-      } else if (exec.compileError) {
-        return res.json({
-          score: 5,
-          maxScore: 30,
-          logicScore: 15,
-          verdict: 'Compilation Error',
-          approach: 'Partial Logic / Syntax Issue',
-          errorsIgnored: [],
-          feedback: `Code encountered compilation error: ${exec.compileError.slice(0, 150)}`,
-          testCases: [{ input: sampleInput || '', expected: sampleExpectedOutput || '', actual: `[Compilation Error]`, passed: false }]
-        });
-      } else {
-        return res.json({
-          score: 8,
-          maxScore: 30,
-          logicScore: 25,
-          verdict: 'Wrong Answer',
-          approach: 'Algorithmic Logic Attempt',
-          errorsIgnored: [],
-          feedback: `Code ran but produced output "${actualNorm}" instead of expected "${expNorm}".`,
-          testCases: [{ input: sampleInput || '', expected: sampleExpectedOutput || '', actual: actualNorm, passed: false }]
-        });
-      }
-    } catch (fallbackErr) {
-      return res.json({
-        score: 0,
-        maxScore: 30,
-        logicScore: 0,
-        verdict: 'Evaluation Error',
-        approach: 'Execution Failed',
-        errorsIgnored: [],
-        feedback: 'Evaluation service encountered an error. Please try again.',
-        testCases: []
+      results.push({
+        input: tc.input,
+        expected: tc.expected,
+        actual: actualNorm || (exec.compileError ? '[Compilation Error]' : exec.timedOut ? '[Time Limit Exceeded]' : '[No Output]'),
+        passed,
+        note: exec.compileError ? 'Compilation Error' : exec.timedOut ? 'Time Limit Exceeded' : passed ? 'Passed' : 'Output Mismatch'
       });
     }
+
+    const total = cases.length || 1;
+    const score = Math.round((passedCount / total) * 30);
+    const logicScore = Math.round((passedCount / total) * 100);
+
+    let verdict = 'Accepted';
+    let feedback = 'All test cases passed successfully.';
+    if (firstCompileError) {
+      verdict = 'Compilation Error';
+      feedback = `Compilation failed:\n${firstCompileError}`;
+    } else if (passedCount === total) {
+      verdict = 'Accepted (All Test Cases Passed)';
+      feedback = `Program compiled and passed all ${total} test cases.`;
+    } else if (passedCount > 0) {
+      verdict = `Partially Accepted (${passedCount}/${total} Passed)`;
+      feedback = `Program passed ${passedCount} of ${total} test cases.`;
+    } else {
+      verdict = 'Wrong Answer';
+      feedback = 'Program compiled and executed, but output did not match expected test cases.';
+    }
+
+    return res.json({
+      score,
+      maxScore: 30,
+      logicScore,
+      verdict,
+      approach: `${(language || '').toUpperCase()} Program`,
+      errorsIgnored: [],
+      feedback,
+      timeComplexity: 'N/A',
+      spaceComplexity: 'N/A',
+      testCases: results
+    });
+  } catch (error: any) {
+    console.error('Error evaluating code:', error);
+    return res.status(500).json({ error: 'Evaluation failed' });
   }
 });
 
@@ -784,7 +636,7 @@ app.post('/api/proctor/analyze-frame', async (req, res) => {
     const cleanBase64 = imageBase64.replace(/^data:image\/\w+;base64,/, '');
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
+      model: 'gemini-2.5-flash',
       contents: {
         parts: [
           {

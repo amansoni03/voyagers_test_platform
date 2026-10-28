@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Play, 
-  Sparkles, 
   CheckCircle2, 
   XCircle, 
   AlertTriangle, 
@@ -59,8 +58,7 @@ export const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
   const [customOutput, setCustomOutput] = useState<string | null>(null);
   const [customMismatchError, setCustomMismatchError] = useState<string | null>(null);
   const [isExecuting, setIsExecuting] = useState(false);
-  const [isEvaluatingAi, setIsEvaluatingAi] = useState(false);
-  const [activeTab, setActiveTab] = useState<'editor' | 'testcases' | 'aiReport'>('editor');
+  const [activeTab, setActiveTab] = useState<'editor' | 'testcases'>('editor');
   const [isSplitView, setIsSplitView] = useState<boolean>(false);
   const [fontSize, setFontSize] = useState<'xs' | 'sm' | 'base'>('xs');
   const [copiedCodeToast, setCopiedCodeToast] = useState(false);
@@ -295,10 +293,40 @@ export const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
 
       if (data.results && data.results.length > 0) {
         setTestResults(data.results);
+        const passedCount = data.passedCount || 0;
+        const totalCount = data.totalCount || data.results.length;
         setExecutionStats({
-          passedCount: data.passedCount || 0,
-          totalCount: data.totalCount || data.results.length,
+          passedCount,
+          totalCount,
           allPassed: Boolean(data.allPassed),
+        });
+
+        // Automatically update submission evaluation from real test cases
+        const total = totalCount || 1;
+        const score = Math.round((passedCount / total) * (question.marks || 30));
+        const logicScore = Math.round((passedCount / total) * 100);
+        const hasCompileError = data.results.some((r: any) => r.actual?.includes('Compilation Error') || r.error?.includes('Compilation'));
+        const verdict = data.allPassed 
+          ? 'Accepted' 
+          : hasCompileError 
+            ? 'Compilation Error' 
+            : passedCount > 0 
+              ? `Partially Accepted (${passedCount}/${total})` 
+              : 'Wrong Answer';
+
+        onEvaluationComplete({
+          score,
+          maxScore: question.marks || 30,
+          logicScore,
+          verdict,
+          approach: `${selectedLanguage.toUpperCase()} Program`,
+          errorsIgnored: [],
+          feedback: data.allPassed 
+            ? 'All test cases compiled and passed successfully.' 
+            : `Program passed ${passedCount} of ${total} test cases.`,
+          timeComplexity: 'N/A',
+          spaceComplexity: 'N/A',
+          testCases: data.results,
         });
 
         // Automatically focus the first failed/mismatched test case so the mismatch error is directly visible
@@ -360,33 +388,6 @@ export const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
       setExecutionError(err.message || 'Failed to run on custom input');
     } finally {
       setIsExecuting(false);
-    }
-  };
-
-  // AI Logic Grading with Leniency
-  const handleEvaluateLogic = async () => {
-    setIsEvaluatingAi(true);
-    setActiveTab('aiReport');
-    try {
-      const res = await fetch('/api/evaluate-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          problemTitle: question.title,
-          problemDescription: question.questionText,
-          language: selectedLanguage,
-          code: studentCode,
-          sampleInput: question.sampleInput,
-          sampleExpectedOutput: question.sampleExpectedOutput,
-        }),
-      });
-
-      const data: CodeEvaluationResult = await res.json();
-      onEvaluationComplete(data);
-    } catch (err) {
-      console.error('Logic evaluation error:', err);
-    } finally {
-      setIsEvaluatingAi(false);
     }
   };
 
@@ -515,15 +516,6 @@ export const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
             <span>{isExecuting ? 'Running...' : 'Run Test Cases'}</span>
           </button>
 
-          <button
-            onClick={handleEvaluateLogic}
-            disabled={isEvaluatingAi || !studentCode.trim()}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-bold rounded-lg shadow-xs transition-all disabled:opacity-50 cursor-pointer"
-            title="Evaluates algorithmic logic and awards marks even if minor syntax slips exist"
-          >
-            <Sparkles className={`w-3.5 h-3.5 text-amber-300 ${isEvaluatingAi ? 'animate-spin' : ''}`} />
-            <span>{isEvaluatingAi ? 'AI Grading...' : 'Evaluate Logic with AI'}</span>
-          </button>
         </div>
       </div>
 
@@ -561,18 +553,6 @@ export const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
                 {executionStats.passedCount}/{executionStats.totalCount} Passed
               </span>
             )}
-          </button>
-
-          <button
-            onClick={() => setActiveTab('aiReport')}
-            className={`px-4 py-2.5 border-b-2 transition-colors flex items-center gap-1.5 ${
-              activeTab === 'aiReport'
-                ? 'border-indigo-600 text-indigo-700 bg-white font-bold'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
-            }`}
-          >
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            <span>AI Logic Evaluation {evaluationResult && `(${evaluationResult.score}/30)`}</span>
           </button>
         </div>
       )}
@@ -839,89 +819,6 @@ export const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
               )}
 
             </div>
-          </div>
-        )}
-
-        {/* Render AI Evaluation Tab */}
-        {!isSplitView && activeTab === 'aiReport' && (
-          <div className="h-full p-4 overflow-y-auto space-y-3.5 bg-white">
-            {isEvaluatingAi ? (
-              <div className="h-full flex flex-col items-center justify-center p-8 text-center space-y-3">
-                <Sparkles className="w-10 h-10 text-amber-500 animate-spin" />
-                <div className="text-base font-bold text-slate-900">AI Evaluating Algorithmic Logic & Correctness</div>
-                <p className="text-xs text-slate-500 max-w-md">
-                  Analyzing code structure in {selectedLanguage.toUpperCase()}... forgiving minor syntax slips and grading algorithmic thought process.
-                </p>
-              </div>
-            ) : evaluationResult ? (
-              <div className="space-y-3 text-xs">
-                {/* Score Header */}
-                <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 flex items-center justify-between shadow-2xs">
-                  <div>
-                    <span className="text-[10px] uppercase font-bold text-blue-700 tracking-wider">Evaluation Verdict</span>
-                    <h4 className="text-base font-black text-slate-900 flex items-center gap-2">
-                      {evaluationResult.verdict}
-                    </h4>
-                    <span className="text-slate-600 text-[11px]">
-                      Approach Identified: <strong className="text-emerald-700">{evaluationResult.approach}</strong>
-                    </span>
-                  </div>
-
-                  <div className="text-right">
-                    <span className="text-[10px] uppercase font-bold text-slate-500">Awarded Marks</span>
-                    <div className="text-2xl font-black text-blue-700">
-                      {evaluationResult.score} <span className="text-xs text-slate-500 font-normal">/ 30</span>
-                    </div>
-                    <span className="text-[10px] text-amber-700 font-bold font-mono">
-                      Logic Score: {evaluationResult.logicScore}%
-                    </span>
-                  </div>
-                </div>
-
-                {/* Leniency Box (Errors Ignored) */}
-                <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1 shadow-2xs">
-                  <div className="flex items-center gap-1.5 text-emerald-900 font-bold text-xs">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <span>Leniency Mode Applied (Errors Ignored for Fair Marking):</span>
-                  </div>
-                  {evaluationResult.errorsIgnored && evaluationResult.errorsIgnored.length > 0 ? (
-                    <ul className="list-disc list-inside space-y-0.5 text-emerald-800 text-[11px] pl-1">
-                      {evaluationResult.errorsIgnored.map((err, idx) => (
-                        <li key={idx}>{err}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-[11px] text-slate-600">Clean code structure. Algorithmic marks awarded.</p>
-                  )}
-                </div>
-
-                {/* AI Constructive Feedback */}
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1 shadow-2xs">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Examiner AI Feedback:</span>
-                  <p className="text-slate-800 leading-relaxed text-xs">{evaluationResult.feedback}</p>
-                </div>
-
-                {/* Complexity */}
-                <div className="grid grid-cols-2 gap-2 text-center">
-                  <div className="p-2 rounded-lg bg-slate-50 border border-slate-200 shadow-2xs">
-                    <span className="text-[10px] text-slate-500 block">Time Complexity</span>
-                    <span className="font-mono text-blue-700 font-bold">{evaluationResult.timeComplexity || 'O(N)'}</span>
-                  </div>
-                  <div className="p-2 rounded-lg bg-slate-50 border border-slate-200 shadow-2xs">
-                    <span className="text-[10px] text-slate-500 block">Auxiliary Space</span>
-                    <span className="font-mono text-indigo-700 font-bold">{evaluationResult.spaceComplexity || 'O(1)'}</span>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="h-full flex flex-col items-center justify-center p-6 text-center space-y-2 text-slate-500">
-                <HelpCircle className="w-8 h-8 text-slate-400" />
-                <p className="text-xs">Click <strong>"Evaluate Logic with AI"</strong> above to grade your code.</p>
-                <p className="text-[11px] text-slate-400 max-w-sm">
-                  Evaluates algorithm logic and edge-cases rather than punishing minor syntax quirks.
-                </p>
-              </div>
-            )}
           </div>
         )}
       </div>
