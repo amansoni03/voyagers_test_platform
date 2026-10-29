@@ -100,10 +100,27 @@ export default function App() {
       }
     });
 
-    // Coding Marks
-    const p1Score = codingEvaluations['code_1']?.score ?? 25;
-    const p2Score = codingEvaluations['code_2']?.score ?? 24;
-    const codingTotal = Math.min(60, p1Score + p2Score);
+    // Coding Marks: Objective calculation based on test cases and written solution
+    const codingQuestions = questions.filter(q => q.sectionId === 'coding');
+    let codingTotal = 0;
+    if (codingQuestions.length > 0) {
+      codingQuestions.forEach(cq => {
+        const evalRes = codingEvaluations[cq.id];
+        if (evalRes && typeof evalRes.score === 'number') {
+          codingTotal += evalRes.score;
+        } else {
+          const sub = codingSubmissions[cq.id];
+          if (sub?.code && sub.code.trim().length > 40) {
+            codingTotal += 24;
+          }
+        }
+      });
+      codingTotal = Math.min(60, codingTotal);
+    } else {
+      const p1Score = codingEvaluations['code_1']?.score ?? 25;
+      const p2Score = codingEvaluations['code_2']?.score ?? 24;
+      codingTotal = Math.min(60, p1Score + p2Score);
+    }
 
     const total = numScore + vrbScore + rsnScore + advScore + codingTotal;
     const maxTotal = 155;

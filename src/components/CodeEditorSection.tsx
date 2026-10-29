@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Play, 
+  Sparkles, 
   CheckCircle2, 
   XCircle, 
   AlertTriangle, 
@@ -295,38 +296,12 @@ export const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
         setTestResults(data.results);
         const passedCount = data.passedCount || 0;
         const totalCount = data.totalCount || data.results.length;
+        const allPassed = Boolean(data.allPassed);
+
         setExecutionStats({
           passedCount,
           totalCount,
-          allPassed: Boolean(data.allPassed),
-        });
-
-        // Automatically update submission evaluation from real test cases
-        const total = totalCount || 1;
-        const score = Math.round((passedCount / total) * (question.marks || 30));
-        const logicScore = Math.round((passedCount / total) * 100);
-        const hasCompileError = data.results.some((r: any) => r.actual?.includes('Compilation Error') || r.error?.includes('Compilation'));
-        const verdict = data.allPassed 
-          ? 'Accepted' 
-          : hasCompileError 
-            ? 'Compilation Error' 
-            : passedCount > 0 
-              ? `Partially Accepted (${passedCount}/${total})` 
-              : 'Wrong Answer';
-
-        onEvaluationComplete({
-          score,
-          maxScore: question.marks || 30,
-          logicScore,
-          verdict,
-          approach: `${selectedLanguage.toUpperCase()} Program`,
-          errorsIgnored: [],
-          feedback: data.allPassed 
-            ? 'All test cases compiled and passed successfully.' 
-            : `Program passed ${passedCount} of ${total} test cases.`,
-          timeComplexity: 'N/A',
-          spaceComplexity: 'N/A',
-          testCases: data.results,
+          allPassed,
         });
 
         // Automatically focus the first failed/mismatched test case so the mismatch error is directly visible
@@ -334,6 +309,28 @@ export const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
         if (firstFailed >= 0) {
           setSelectedTestCaseIdx(firstFailed);
         }
+
+        // Objectively compute score out of 30 marks
+        const marks = Math.round((passedCount / totalCount) * 30);
+        const logicPct = Math.round((passedCount / totalCount) * 100);
+        onEvaluationComplete({
+          score: marks,
+          maxScore: 30,
+          logicScore: logicPct,
+          verdict: allPassed ? 'Accepted (All Test Cases Passed)' : `${passedCount}/${totalCount} Test Cases Passed`,
+          approach: `${selectedLanguage.toUpperCase()} Solution`,
+          errorsIgnored: [],
+          feedback: allPassed
+            ? 'All test cases passed with expected output.'
+            : `${passedCount} of ${totalCount} test cases passed.`,
+          testCases: data.results.map((r: any) => ({
+            input: r.input,
+            expected: r.expected,
+            actual: r.actual,
+            passed: r.passed,
+            note: r.mismatch ? 'Output Mismatch' : r.error || undefined
+          }))
+        });
       }
 
       if (data.customOutput !== undefined) {
@@ -515,7 +512,6 @@ export const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
             <Play className={`w-3.5 h-3.5 fill-current ${isExecuting ? 'animate-pulse' : ''}`} />
             <span>{isExecuting ? 'Running...' : 'Run Test Cases'}</span>
           </button>
-
         </div>
       </div>
 
@@ -821,6 +817,7 @@ export const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
             </div>
           </div>
         )}
+
       </div>
     </div>
   );

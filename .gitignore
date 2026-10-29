@@ -9,3 +9,5 @@ coverage/
 *.backup.json
 *.tmp
 bun.lock
+.aistudio/
+submissions_records/
